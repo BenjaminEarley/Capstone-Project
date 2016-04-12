@@ -29,6 +29,6 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.retrofit2:retrofit:2.0.1'
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile 'com.google.android.gms:play-services-appinvite:8.4.0'
+    compile 'com.google.android.gms:play-services-analytics:8.4.0'
 }
