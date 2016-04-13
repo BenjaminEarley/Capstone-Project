@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">MySubs</string>
     <string name="title_story_detail">story Detail</string>
+    <string name="invitation_title">MySubs Is AWESOME</string>
+    <string name="invitation_message">I have been loving this app. You should try it!</string>
+    <string name="invitation_cta">Install!</string>
+    <string name="invite">Send Invite</string>
+    <string name="invite_error">Invite Not Sent</string>
 </resources>
