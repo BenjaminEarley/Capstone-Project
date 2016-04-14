@@ -18,5 +18,8 @@
 
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
+
+-dontwarn okio.**
+
 -keepattributes Signature
 -keepattributes Exceptions
