@@ -6,4 +6,5 @@
     <string name="invitation_cta">Install!</string>
     <string name="invite">Send Invite</string>
     <string name="invite_error">Invite Not Sent</string>
+    <string name="invitation_subject">Try this great app!</string>
 </resources>

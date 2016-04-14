@@ -118,7 +118,11 @@ public class storyListActivity extends AppCompatActivity {
     private void onInviteClicked() {
         Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                 .setMessage(getString(R.string.invitation_message))
-                .setCallToActionText(getString(R.string.invitation_cta))
+                .setEmailHtmlContent("<html><body>" +
+                        "<h1>MySubs App Invite</h1>" +
+                        "<a href=\"%%APPINVITE_LINK_PLACEHOLDER%%\">Install Now!</a>" +
+                        "<body></html>")
+                .setEmailSubject(getString(R.string.invitation_subject))
                 .build();
         startActivityForResult(intent, REQUEST_INVITE);
     }
