@@ -20,6 +20,10 @@ public class WebServices {
         return ourInstance;
     }
 
+    public static Call<Listing> getSubredditHotListing(String subreddit) {
+        return WebServices.getInstance().getRedditService().getSubredditHotListing(subreddit);
+    }
+
     private Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
@@ -35,9 +39,5 @@ public class WebServices {
             redditService = getRetrofit().create(RedditService.class);
         }
         return redditService;
-    }
-
-    public Call<Listing> getSubredditHotListing(String subreddit) {
-        return WebServices.getInstance().getRedditService().getSubredditHotListing(subreddit);
     }
 }
