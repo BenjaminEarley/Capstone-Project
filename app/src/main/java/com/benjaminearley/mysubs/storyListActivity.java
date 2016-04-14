@@ -70,6 +70,7 @@ public class storyListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
