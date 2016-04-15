@@ -7,7 +7,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="com.benjaminearley.mysubs.storyListActivity">
+    tools:context=".StoryListActivity">
 
     <!--
     This layout is a two-pane layout for the stories
@@ -22,7 +22,7 @@
         android:layout_width="@dimen/item_width"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.benjaminearley.mysubs.storyListActivity"
+        tools:context=".StoryListActivity"
         tools:listitem="@layout/story_list_content" />
 
     <FrameLayout

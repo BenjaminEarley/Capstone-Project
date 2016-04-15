@@ -18,9 +18,9 @@ public class SimpleItemRecyclerViewAdapter
 
     private final List<DummyContent.DummyItem> mValues;
     private final boolean mTwoPane;
-    private final storyListActivity activity;
+    private final StoryListActivity activity;
 
-    public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items, boolean mTwoPane, storyListActivity activity) {
+    public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items, boolean mTwoPane, StoryListActivity activity) {
         mValues = items;
         this.mTwoPane = mTwoPane;
         this.activity = activity;
@@ -44,16 +44,16 @@ public class SimpleItemRecyclerViewAdapter
             public void onClick(View v) {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(storyDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                    storyDetailFragment fragment = new storyDetailFragment();
+                    arguments.putString(StoryDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    StoryDetailFragment fragment = new StoryDetailFragment();
                     fragment.setArguments(arguments);
                     activity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.story_detail_container, fragment)
                             .commit();
                 } else {
                     Context context = v.getContext();
-                    Intent intent = new Intent(context, storyDetailActivity.class);
-                    intent.putExtra(storyDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    Intent intent = new Intent(context, StoryDetailActivity.class);
+                    intent.putExtra(StoryDetailFragment.ARG_ITEM_ID, holder.mItem.id);
 
                     context.startActivity(intent);
                 }

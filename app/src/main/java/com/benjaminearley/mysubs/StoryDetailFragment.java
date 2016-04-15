@@ -1,8 +1,8 @@
 package com.benjaminearley.mysubs;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +13,11 @@ import com.benjaminearley.mysubs.dummy.DummyContent;
 
 /**
  * A fragment representing a single story detail screen.
- * This fragment is either contained in a {@link storyListActivity}
- * in two-pane mode (on tablets) or a {@link storyDetailActivity}
+ * This fragment is either contained in a {@link StoryListActivity}
+ * in two-pane mode (on tablets) or a {@link StoryDetailActivity}
  * on handsets.
  */
-public class storyDetailFragment extends Fragment {
+public class StoryDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -33,7 +33,7 @@ public class storyDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public storyDetailFragment() {
+    public StoryDetailFragment() {
     }
 
     @Override

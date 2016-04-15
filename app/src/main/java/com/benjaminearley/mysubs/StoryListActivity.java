@@ -20,14 +20,14 @@ import com.google.android.gms.appinvite.AppInviteInvitation;
  * An activity representing a list of stories. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link storyDetailActivity} representing
+ * lead to a {@link StoryDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class storyListActivity extends AppCompatActivity {
+public class StoryListActivity extends AppCompatActivity {
 
     private static final int REQUEST_INVITE = 0;
-    private static final String TAG = storyListActivity.class.getSimpleName();
+    private static final String TAG = StoryListActivity.class.getSimpleName();
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
