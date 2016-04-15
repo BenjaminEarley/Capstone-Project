@@ -1,8 +1,5 @@
 package com.benjaminearley.mysubs;
 
-import com.benjaminearley.mysubs.model.Listing;
-
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -20,10 +17,6 @@ public class WebServices {
         return ourInstance;
     }
 
-    public static Call<Listing> getSubredditHotListing(String subreddit) {
-        return WebServices.getInstance().getRedditService().getSubredditHotListing(subreddit);
-    }
-
     private Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
@@ -34,7 +27,7 @@ public class WebServices {
         return retrofit;
     }
 
-    private RedditService getRedditService() {
+    public RedditService getRedditService() {
         if (redditService == null) {
             redditService = getRetrofit().create(RedditService.class);
         }

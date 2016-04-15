@@ -21,5 +21,7 @@
 
 -dontwarn okio.**
 
+-keep class com.benjaminearley.mysubs.model.** { *; }
+
 -keepattributes Signature
 -keepattributes Exceptions
