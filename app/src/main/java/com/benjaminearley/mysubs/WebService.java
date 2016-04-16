@@ -3,17 +3,17 @@ package com.benjaminearley.mysubs;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class WebServices {
+public class WebService {
 
     private static final String REDDIT_BASE_URL = "https://www.reddit.com";
-    private static WebServices ourInstance = new WebServices();
+    private static WebService ourInstance = new WebService();
     private Retrofit retrofit;
     private RedditService redditService;
 
-    private WebServices() {
+    private WebService() {
     }
 
-    public static WebServices getInstance() {
+    public static WebService getInstance() {
         return ourInstance;
     }
 
