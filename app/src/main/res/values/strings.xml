@@ -9,4 +9,7 @@
     <string name="invitation_subject">Try this great app!</string>
     <string name="invite_h1">MySubs App Invite</string>
     <string name="invite_a">Install Now!</string>
+
+    <string name="sync_account_type" translatable="false">mysubs.benjaminearley.com</string>
+    <string name="content_authority" translatable="false">com.benjaminearley.mysubs</string>
 </resources>
