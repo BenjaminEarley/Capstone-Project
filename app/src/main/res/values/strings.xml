@@ -7,4 +7,6 @@
     <string name="invite">Send Invite</string>
     <string name="invite_error">Invite Not Sent</string>
     <string name="invitation_subject">Try this great app!</string>
+    <string name="invite_h1">MySubs App Invite</string>
+    <string name="invite_a">Install Now!</string>
 </resources>
