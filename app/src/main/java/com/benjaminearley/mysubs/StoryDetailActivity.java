@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
+
 /**
  * An activity representing a single story detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
@@ -28,6 +30,8 @@ public class StoryDetailActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        MySubsSyncAdapter.initializeSyncAdapter(this);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
