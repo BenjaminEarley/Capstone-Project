@@ -59,8 +59,6 @@ public class StoryListActivity extends AppCompatActivity {
         }
 
         View recyclerView = findViewById(R.id.story_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
 
         if (findViewById(R.id.story_detail_container) != null) {
             // The detail container view will be present only in the
@@ -69,7 +67,9 @@ public class StoryListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-
+        if (recyclerView != null) {
+            setupRecyclerView((RecyclerView) recyclerView);
+        }
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
