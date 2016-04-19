@@ -12,6 +12,7 @@ public class MySubsContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_SUBREDDIT = "subreddit";
+
     public static final String PATH_STORY = "story";
 
     /* Inner class that defines the table contents of the location table */
@@ -31,12 +32,12 @@ public class MySubsContract {
 
         public static final String COLUMN_TITLE = "title";
 
-        public static final String COLUMN_OVER_18 = "over18";
-
-        public static final String COLUMN_PUBLIC_TRAFFIC = "publicTraffic";
-
         public static Uri buildSubredditUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static Uri buildSubreddit() {
+            return CONTENT_URI;
         }
     }
 
@@ -52,8 +53,6 @@ public class MySubsContract {
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_STORY;
 
         public static final String TABLE_NAME = "story";
-
-        public static final String COLUMN_SUBREDDIT_KEY = "subreddit_id";
 
         public static final String COLUMN_SUBREDDIT = "subreddit";
 
@@ -73,6 +72,10 @@ public class MySubsContract {
 
         public static Uri buildStoryUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static Uri buildStory() {
+            return CONTENT_URI;
         }
 
 

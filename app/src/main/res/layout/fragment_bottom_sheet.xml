@@ -38,15 +38,9 @@
             tools:ignore="MissingPrefix" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/story_list"
-        android:name="com.benjaminearley.mysubs.storyListFragment"
+    <android.support.v7.widget.ListViewCompat
+        android:id="@+id/subreddit_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".StoryListActivity"
-        tools:listitem="@layout/story_list_content" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
