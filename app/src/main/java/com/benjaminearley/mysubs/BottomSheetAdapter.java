@@ -56,6 +56,8 @@ class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHol
 
         @Override
         public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            mCursor.moveToPosition(adapterPosition);
             mClickHandler.onClick(mCursor.getString(SubredditBottomSheetDialogFragment.COLUMN_TITLE));
         }
     }
