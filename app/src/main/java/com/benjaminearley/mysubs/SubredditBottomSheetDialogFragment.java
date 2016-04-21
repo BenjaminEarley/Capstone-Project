@@ -16,15 +16,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.benjaminearley.mysubs.data.MySubsContract;
+import com.benjaminearley.mysubs.model.Data__;
+import com.benjaminearley.mysubs.model.Subreddit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    static final int COLUMN_TITLE = 2;
+    static final int COLUMN_TITLE = 1;
+    static final int COLUMN_URL = 2;
     private static final int SUBREDDIT_LOADER = 0;
     private static final String[] SUBREDDIT_COLUMNS = {
             MySubsContract.SubredditEntry.TABLE_NAME + "." + MySubsContract.SubredditEntry._ID,
@@ -32,6 +40,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
             MySubsContract.SubredditEntry.COLUMN_URL
     };
     ImageButton addButton;
+    EditText subredditSearch;
     SimpleAdapter subredditAdapter;
     RecyclerView recyclerView;
 
@@ -64,24 +73,67 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
         }
 
         recyclerView = (RecyclerView) contentView.findViewById(R.id.subreddit_list);
-        subredditAdapter = new SimpleAdapter(new SimpleAdapter.SimpleAdapterOnClickHandler() {
+        subredditAdapter = new SimpleAdapter(new SimpleAdapterOnClickHandler() {
             @Override
-            public void onClick(String subreddit, SimpleAdapter.ViewHolder vh) {
+            public void onClick(String subreddit) {
                 Toast.makeText(getContext(), subreddit, Toast.LENGTH_LONG).show();
             }
         });
         recyclerView.setAdapter(subredditAdapter);
 
+        subredditSearch = (EditText) contentView.findViewById(R.id.subreddit_search);
         addButton = (ImageButton) contentView.findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentValues subredditValues = new ContentValues();
 
-                subredditValues.put(MySubsContract.SubredditEntry.COLUMN_TITLE, "test");
-                subredditValues.put(MySubsContract.SubredditEntry.COLUMN_URL, "foo.com");
+                String searchedText = subredditSearch.getText().toString();
 
-                getContext().getContentResolver().insert(MySubsContract.SubredditEntry.CONTENT_URI, subredditValues);
+                if (searchedText.isEmpty()) {
+                    return;
+                }
+                WebService.getInstance().getRedditService().getSubredditInfo(searchedText).enqueue(new Callback<Subreddit>() {
+                    @Override
+                    public void onResponse(Call<Subreddit> call, Response<Subreddit> response) {
+
+                        if (!response.isSuccessful()) {
+                            return;
+                        }
+
+                        if (response.raw().toString().contains("search.json?q")) {
+                            return;
+                        }
+
+                        Data__ subredditData = response.body().getData();
+
+                        if (subredditData.isOver18() || subredditData.isPublicTraffic()) {
+                            return;
+                        }
+
+//                        mCursor.move(-1);
+//
+//                        while (mCursor.moveToNext()) {
+//                            if (mCursor.getString(COLUMN_URL).equals(subredditData.getUrl())) {
+//                                return;
+//                            }
+//                        }
+
+                        ContentValues subredditValues = new ContentValues();
+
+                        subredditValues.put(MySubsContract.SubredditEntry.COLUMN_TITLE, subredditData.getTitle());
+                        subredditValues.put(MySubsContract.SubredditEntry.COLUMN_URL, subredditData.getUrl());
+
+                        getContext().getContentResolver().insert(MySubsContract.SubredditEntry.CONTENT_URI, subredditValues);
+
+                        subredditSearch.setText("");
+                    }
+
+                    @Override
+                    public void onFailure(Call<Subreddit> call, Throwable t) {
+
+                    }
+                });
+
             }
         });
 
@@ -120,10 +172,14 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
         subredditAdapter.swapCursor(null);
     }
 
+    public interface SimpleAdapterOnClickHandler {
+        void onClick(String subreddit);
+    }
+
     private static class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder> {
 
         final private SimpleAdapterOnClickHandler mClickHandler;
-        private Cursor mCursor;
+        Cursor mCursor;
 
         public SimpleAdapter(SimpleAdapterOnClickHandler mClickHandler) {
             this.mClickHandler = mClickHandler;
@@ -155,9 +211,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
             }
         }
 
-        public interface SimpleAdapterOnClickHandler {
-            void onClick(String subreddit, ViewHolder vh);
-        }
+
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -172,7 +226,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
             @Override
             public void onClick(View v) {
-                mClickHandler.onClick(mCursor.getString(COLUMN_TITLE), this);
+                mClickHandler.onClick(mCursor.getString(COLUMN_TITLE));
             }
         }
     }
