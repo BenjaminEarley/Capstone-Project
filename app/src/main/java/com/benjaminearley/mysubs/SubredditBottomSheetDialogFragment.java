@@ -13,12 +13,9 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.benjaminearley.mysubs.data.MySubsContract;
@@ -41,7 +38,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
     };
     ImageButton addButton;
     EditText subredditSearch;
-    SimpleAdapter subredditAdapter;
+    BottomSheetAdapter subredditAdapter;
     RecyclerView recyclerView;
 
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
@@ -73,7 +70,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
         }
 
         recyclerView = (RecyclerView) contentView.findViewById(R.id.subreddit_list);
-        subredditAdapter = new SimpleAdapter(new SimpleAdapterOnClickHandler() {
+        subredditAdapter = new BottomSheetAdapter(new SimpleAdapterOnClickHandler() {
             @Override
             public void onClick(String subreddit) {
                 Toast.makeText(getContext(), subreddit, Toast.LENGTH_LONG).show();
@@ -159,7 +156,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
                 SUBREDDIT_COLUMNS,
                 null,
                 null,
-                null);
+                MySubsContract.SubredditEntry._ID + " DESC");
     }
 
     @Override
@@ -176,58 +173,4 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
         void onClick(String subreddit);
     }
 
-    private static class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder> {
-
-        final private SimpleAdapterOnClickHandler mClickHandler;
-        Cursor mCursor;
-
-        public SimpleAdapter(SimpleAdapterOnClickHandler mClickHandler) {
-            this.mClickHandler = mClickHandler;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            mCursor.moveToPosition(position);
-            holder.mTextView.setText(mCursor.getString(COLUMN_TITLE));
-        }
-
-        @Override
-        public int getItemCount() {
-            if (null == mCursor) return 0;
-            return mCursor.getCount();
-        }
-
-        public void swapCursor(Cursor newCursor) {
-            mCursor = newCursor;
-            if (newCursor != null) {
-                notifyDataSetChanged();
-            }
-        }
-
-
-
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private TextView mTextView;
-
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                mTextView = (TextView) itemView.findViewById(android.R.id.text1);
-                itemView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                mClickHandler.onClick(mCursor.getString(COLUMN_TITLE));
-            }
-        }
-    }
 }
