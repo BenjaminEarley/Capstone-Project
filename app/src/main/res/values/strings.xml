@@ -13,4 +13,5 @@
     <string name="sync_account_type" translatable="false">mysubs.benjaminearley.com</string>
     <string name="content_authority" translatable="false">com.benjaminearley.mysubs</string>
     <string name="addSubreddit">Add Subreddit</string>
+    <string name="delete">Delete</string>
 </resources>

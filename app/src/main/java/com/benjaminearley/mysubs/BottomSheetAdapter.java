@@ -19,7 +19,7 @@ class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHol
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
+        View view = inflater.inflate(R.layout.bottom_sheet_fragment_dialog_item, null);
         return new ViewHolder(view);
     }
 
@@ -50,7 +50,7 @@ class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHol
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mTextView = (TextView) itemView.findViewById(android.R.id.text1);
+            mTextView = (TextView) itemView.findViewById(android.R.id.title);
             itemView.setOnClickListener(this);
         }
 
