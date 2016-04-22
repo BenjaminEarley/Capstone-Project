@@ -15,7 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.benjaminearley.mysubs.dummy.DummyContent;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.appinvite.AppInviteInvitation;
+
+import java.util.Arrays;
 
 public class StoryListActivity extends AppCompatActivity {
 
@@ -90,13 +93,17 @@ public class StoryListActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_INVITE) {
             if (resultCode == RESULT_OK) {
-                // Check how many invitations were sent and log a message
-                // The ids array contains the unique invitation ids for each invitation sent
-                // (one for each contact select by the user). You can use these for analytics
-                // as the ID will be consistent on the sending and receiving devices.
                 String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                AnalyticsTrackers
+                        .getInstance()
+                        .get(AnalyticsTrackers.Target.APP)
+                        .send(new HitBuilders.EventBuilder()
+                                .setAction("GAPPS_INVITE")
+                                .setCategory("SHARING")
+                                .set("Invintation Count", Arrays.toString(ids))
+                                .build()
+                        );
             } else {
-                // Sending failed or it was canceled, show failure message to the user
                 Snackbar.make(findViewById(R.id.coord_layout), getString(R.string.invite_error), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
