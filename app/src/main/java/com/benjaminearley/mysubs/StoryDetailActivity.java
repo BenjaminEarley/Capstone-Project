@@ -10,12 +10,6 @@ import android.view.MenuItem;
 
 import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
 
-/**
- * An activity representing a single story detail screen. This
- * activity is only used narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link StoryListActivity}.
- */
 public class StoryDetailActivity extends AppCompatActivity {
 
     @Override

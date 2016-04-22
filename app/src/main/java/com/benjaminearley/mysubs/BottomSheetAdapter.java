@@ -19,7 +19,7 @@ class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHol
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.bottom_sheet_fragment_dialog_item, null);
+        View view = inflater.inflate(R.layout.bottom_sheet_fragment_dialog_item, parent);
         return new ViewHolder(view);
     }
 

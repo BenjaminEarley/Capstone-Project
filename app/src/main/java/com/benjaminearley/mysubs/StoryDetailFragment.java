@@ -11,28 +11,12 @@ import android.widget.TextView;
 
 import com.benjaminearley.mysubs.dummy.DummyContent;
 
-/**
- * A fragment representing a single story detail screen.
- * This fragment is either contained in a {@link StoryListActivity}
- * in two-pane mode (on tablets) or a {@link StoryDetailActivity}
- * on handsets.
- */
 public class StoryDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
+
     public static final String ARG_ITEM_ID = "item_id";
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
     private DummyContent.DummyItem mItem;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public StoryDetailFragment() {
     }
 
@@ -51,7 +35,8 @@ public class StoryDetailFragment extends Fragment {
             if (toolbar != null) {
                 try {
                     ((StoryDetailActivity) activity).getSupportActionBar().setTitle(mItem.content);
-                } catch (NullPointerException ignored) {
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             }
         }
