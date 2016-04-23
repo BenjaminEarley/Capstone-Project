@@ -27,14 +27,14 @@ public class MySubsDbHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_STORY_TABLE = "CREATE TABLE " + StoryEntry.TABLE_NAME + " (" +
                 StoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                StoryEntry.COLUMN_SUBREDDIT + " TEXT NOT NULL," +
-                StoryEntry.COLUMN_AUTHOR + " TEXT NOT NULL," +
-                StoryEntry.COLUMN_OVER_18 + " INTEGER NOT NULL," +
-                StoryEntry.COLUMN_PERMALINK + " TEXT NOT NULL," +
-                StoryEntry.COLUMN_SCORE + " INTEGER NOT NULL," +
-                StoryEntry.COLUMN_THUMBNAIL + " TEXT NOT NULL," +
-                StoryEntry.COLUMN_UNIX_TIMESTAMP + " INTEGER NOT NULL," +
-                StoryEntry.COLUMN_TITLE + " TEXT NOT NULL);";
+                StoryEntry.COLUMN_SUBREDDIT + " TEXT NULLABLE," +
+                StoryEntry.COLUMN_AUTHOR + " TEXT NULLABLE," +
+                StoryEntry.COLUMN_OVER_18 + " INTEGER NULLABLE," +
+                StoryEntry.COLUMN_PERMALINK + " TEXT NULLABLE," +
+                StoryEntry.COLUMN_SCORE + " INTEGER NULLABLE," +
+                StoryEntry.COLUMN_THUMBNAIL + " TEXT NULLABLE," +
+                StoryEntry.COLUMN_UNIX_TIMESTAMP + " NULLABLE," +
+                StoryEntry.COLUMN_TITLE + " TEXT NULLABLE);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_SUBREDDIT_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_STORY_TABLE);

@@ -20,44 +20,31 @@ public class Data_ {
     private String id;
     private Object fromKind;
     private int gilded;
-    private boolean archived;
-    private boolean clicked;
     private Object reportReasons;
     private String author;
     private Media media;
     private int score;
     private Object approvedBy;
-    private boolean over18;
-    private boolean hidden;
     private Preview preview;
     private int numComments;
     private String thumbnail;
     private String subredditId;
-    private boolean hideScore;
-    private boolean edited;
     private Object linkFlairCssClass;
     private Object authorFlairCssClass;
     private int downs;
     private SecureMediaEmbed secureMediaEmbed;
-    private boolean saved;
     private Object removalReason;
-    private String postHint;
-    private boolean stickied;
     private Object from;
-    private boolean isSelf;
     private Object fromId;
     private String permalink;
-    private boolean locked;
     private String name;
     private double created;
     private String url;
     private Object authorFlairText;
-    private boolean quarantine;
     private String title;
     private double createdUtc;
     private Object distinguished;
     private List<Object> modReports = new ArrayList<Object>();
-    private boolean visited;
     private Object numReports;
     private int ups;
 
@@ -257,33 +244,6 @@ public class Data_ {
         this.gilded = gilded;
     }
 
-    /**
-     * @return The archived
-     */
-    public boolean isArchived() {
-        return archived;
-    }
-
-    /**
-     * @param archived The archived
-     */
-    public void setArchived(boolean archived) {
-        this.archived = archived;
-    }
-
-    /**
-     * @return The clicked
-     */
-    public boolean isClicked() {
-        return clicked;
-    }
-
-    /**
-     * @param clicked The clicked
-     */
-    public void setClicked(boolean clicked) {
-        this.clicked = clicked;
-    }
 
     /**
      * @return The reportReasons
@@ -355,33 +315,6 @@ public class Data_ {
         this.approvedBy = approvedBy;
     }
 
-    /**
-     * @return The over18
-     */
-    public boolean isOver18() {
-        return over18;
-    }
-
-    /**
-     * @param over18 The over_18
-     */
-    public void setOver18(boolean over18) {
-        this.over18 = over18;
-    }
-
-    /**
-     * @return The hidden
-     */
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    /**
-     * @param hidden The hidden
-     */
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
 
     /**
      * @return The preview
@@ -439,33 +372,6 @@ public class Data_ {
         this.subredditId = subredditId;
     }
 
-    /**
-     * @return The hideScore
-     */
-    public boolean isHideScore() {
-        return hideScore;
-    }
-
-    /**
-     * @param hideScore The hide_score
-     */
-    public void setHideScore(boolean hideScore) {
-        this.hideScore = hideScore;
-    }
-
-    /**
-     * @return The edited
-     */
-    public boolean isEdited() {
-        return edited;
-    }
-
-    /**
-     * @param edited The edited
-     */
-    public void setEdited(boolean edited) {
-        this.edited = edited;
-    }
 
     /**
      * @return The linkFlairCssClass
@@ -523,19 +429,6 @@ public class Data_ {
         this.secureMediaEmbed = secureMediaEmbed;
     }
 
-    /**
-     * @return The saved
-     */
-    public boolean isSaved() {
-        return saved;
-    }
-
-    /**
-     * @param saved The saved
-     */
-    public void setSaved(boolean saved) {
-        this.saved = saved;
-    }
 
     /**
      * @return The removalReason
@@ -551,33 +444,7 @@ public class Data_ {
         this.removalReason = removalReason;
     }
 
-    /**
-     * @return The postHint
-     */
-    public String getPostHint() {
-        return postHint;
-    }
 
-    /**
-     * @param postHint The post_hint
-     */
-    public void setPostHint(String postHint) {
-        this.postHint = postHint;
-    }
-
-    /**
-     * @return The stickied
-     */
-    public boolean isStickied() {
-        return stickied;
-    }
-
-    /**
-     * @param stickied The stickied
-     */
-    public void setStickied(boolean stickied) {
-        this.stickied = stickied;
-    }
 
     /**
      * @return The from
@@ -593,19 +460,7 @@ public class Data_ {
         this.from = from;
     }
 
-    /**
-     * @return The isSelf
-     */
-    public boolean isIsSelf() {
-        return isSelf;
-    }
 
-    /**
-     * @param isSelf The is_self
-     */
-    public void setIsSelf(boolean isSelf) {
-        this.isSelf = isSelf;
-    }
 
     /**
      * @return The fromId
@@ -635,19 +490,6 @@ public class Data_ {
         this.permalink = permalink;
     }
 
-    /**
-     * @return The locked
-     */
-    public boolean isLocked() {
-        return locked;
-    }
-
-    /**
-     * @param locked The locked
-     */
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
 
     /**
      * @return The name
@@ -705,19 +547,6 @@ public class Data_ {
         this.authorFlairText = authorFlairText;
     }
 
-    /**
-     * @return The quarantine
-     */
-    public boolean isQuarantine() {
-        return quarantine;
-    }
-
-    /**
-     * @param quarantine The quarantine
-     */
-    public void setQuarantine(boolean quarantine) {
-        this.quarantine = quarantine;
-    }
 
     /**
      * @return The title
@@ -773,20 +602,6 @@ public class Data_ {
      */
     public void setModReports(List<Object> modReports) {
         this.modReports = modReports;
-    }
-
-    /**
-     * @return The visited
-     */
-    public boolean isVisited() {
-        return visited;
-    }
-
-    /**
-     * @param visited The visited
-     */
-    public void setVisited(boolean visited) {
-        this.visited = visited;
     }
 
     /**

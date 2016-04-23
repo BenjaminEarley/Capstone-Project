@@ -9,13 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.benjaminearley.mysubs.dummy.DummyContent;
-
 public class StoryDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
-
-    private DummyContent.DummyItem mItem;
+    private String title;
 
     public StoryDetailFragment() {
     }
@@ -28,13 +25,13 @@ public class StoryDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            title = getArguments().getString(ARG_ITEM_ID);
 
             Activity activity = this.getActivity();
             Toolbar toolbar = (Toolbar) activity.findViewById(R.id.detail_toolbar);
             if (toolbar != null) {
                 try {
-                    ((StoryDetailActivity) activity).getSupportActionBar().setTitle(mItem.content);
+                    ((StoryDetailActivity) activity).getSupportActionBar().setTitle(title);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
@@ -48,8 +45,8 @@ public class StoryDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.story_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.story_detail)).setText(mItem.details);
+        if (title != null) {
+            ((TextView) rootView.findViewById(R.id.story_detail)).setText(title);
         }
 
         return rootView;

@@ -1,11 +1,16 @@
 package com.benjaminearley.mysubs;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,18 +19,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.benjaminearley.mysubs.dummy.DummyContent;
+import com.benjaminearley.mysubs.data.MySubsContract;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 
 import java.util.Arrays;
 
-public class StoryListActivity extends AppCompatActivity {
+public class StoryListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int REQUEST_INVITE = 0;
+    private static final int SUBREDDIT_LOADER = 1;
     private static final String TAG = StoryListActivity.class.getSimpleName();
-
+    private static final String[] STORY_COLUMNS = {
+            MySubsContract.StoryEntry.TABLE_NAME + "." + MySubsContract.StoryEntry._ID,
+            MySubsContract.StoryEntry.COLUMN_SUBREDDIT,
+            MySubsContract.StoryEntry.COLUMN_AUTHOR,
+            MySubsContract.StoryEntry.COLUMN_PERMALINK,
+            MySubsContract.StoryEntry.COLUMN_SCORE,
+            MySubsContract.StoryEntry.COLUMN_THUMBNAIL,
+            MySubsContract.StoryEntry.COLUMN_UNIX_TIMESTAMP,
+            MySubsContract.StoryEntry.COLUMN_TITLE
+    };
+    Cursor data;
     private boolean mTwoPane;
+    private RecyclerView recyclerView;
+    private SimpleItemRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +67,7 @@ public class StoryListActivity extends AppCompatActivity {
             });
         }
 
-        View recyclerView = findViewById(R.id.story_list);
+        recyclerView = (RecyclerView) findViewById(R.id.story_list);
 
         if (findViewById(R.id.story_detail_container) != null) {
             // The detail container view will be present only in the
@@ -59,13 +77,16 @@ public class StoryListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
         if (recyclerView != null) {
-            setupRecyclerView((RecyclerView) recyclerView);
+            setupRecyclerView(recyclerView);
         }
+
+        getSupportLoaderManager().initLoader(SUBREDDIT_LOADER, null, this);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS, mTwoPane, this));
+        adapter = new SimpleItemRecyclerViewAdapter(mTwoPane, this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -120,5 +141,29 @@ public class StoryListActivity extends AppCompatActivity {
                 .setEmailSubject(getString(R.string.invitation_subject))
                 .build();
         startActivityForResult(intent, REQUEST_INVITE);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Uri storyUri = MySubsContract.StoryEntry.buildStory();
+
+        return new CursorLoader(this,
+                storyUri,
+                STORY_COLUMNS,
+                null,
+                null,
+                null);
+    }
+
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        this.data = data;
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
     }
 }

@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncRequest;
 import android.content.SyncResult;
@@ -17,6 +18,7 @@ import com.benjaminearley.mysubs.R;
 import com.benjaminearley.mysubs.RedditService;
 import com.benjaminearley.mysubs.ServiceGenerator;
 import com.benjaminearley.mysubs.data.MySubsContract;
+import com.benjaminearley.mysubs.model.Data_;
 import com.benjaminearley.mysubs.model.Listing;
 
 import java.io.IOException;
@@ -143,7 +145,9 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
                 RedditService taskService = ServiceGenerator.createService(RedditService.class);
                 Call<Listing> call = taskService.getSubredditHotListing(subreddit);
                 try {
-                    Listing stories = call.execute().body();
+                    Listing stories = call
+                            .execute()
+                            .body();
                     allStories.add(stories);
 
                 } catch (IOException e) {
@@ -152,6 +156,36 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
 
             }
             subreddits.close();
+
+            ArrayList<Data_> storyList = new ArrayList<>();
+
+            for (Listing stories : allStories) {
+                int position = 0;
+
+                Data_ story = stories.getData().getChildren().get(position).getData();
+
+                if (story != null) {
+                    storyList.add(story);
+                }
+            }
+
+            Uri storyUri = MySubsContract.StoryEntry.buildStory();
+
+            ContentValues[] storyValues = new ContentValues[storyList.size()];
+
+            for (int i = 0; i < storyValues.length; i++) {
+                storyValues[i] = new ContentValues();
+                storyValues[i].put(MySubsContract.StoryEntry.COLUMN_AUTHOR, storyList.get(i).getAuthor());
+                storyValues[i].put(MySubsContract.StoryEntry.COLUMN_PERMALINK, storyList.get(i).getPermalink());
+                storyValues[i].put(MySubsContract.StoryEntry.COLUMN_SCORE, storyList.get(i).getScore());
+                storyValues[i].put(MySubsContract.StoryEntry.COLUMN_SUBREDDIT, storyList.get(i).getSubreddit());
+                storyValues[i].put(MySubsContract.StoryEntry.COLUMN_THUMBNAIL, storyList.get(i).getThumbnail());
+                storyValues[i].put(MySubsContract.StoryEntry.COLUMN_TITLE, storyList.get(i).getTitle());
+
+            }
+
+            getContext().getContentResolver().bulkInsert(storyUri, storyValues);
+
         }
 
 
