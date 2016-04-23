@@ -40,8 +40,10 @@ public class StoryDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(StoryDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(StoryDetailFragment.ARG_ITEM_ID));
+            arguments.putString(StoryDetailFragment.ARG_ITEM_TITLE,
+                    getIntent().getStringExtra(StoryDetailFragment.ARG_ITEM_TITLE));
+            arguments.putString(StoryDetailFragment.ARG_ITEM_LINK,
+                    getIntent().getStringExtra(StoryDetailFragment.ARG_ITEM_LINK));
             StoryDetailFragment fragment = new StoryDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

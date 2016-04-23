@@ -14,4 +14,6 @@
     <string name="content_authority" translatable="false">com.benjaminearley.mysubs</string>
     <string name="addSubreddit">Add Subreddit</string>
     <string name="delete">Delete</string>
+    <string name="toast_web_error">Could Not Load Page. Please Try Again Later</string>
+    <string name="reddit_url_webview" translatable="false">https://m.reddit.com</string>
 </resources>

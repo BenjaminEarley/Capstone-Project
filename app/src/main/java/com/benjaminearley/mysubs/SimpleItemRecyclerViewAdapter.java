@@ -13,6 +13,7 @@ import android.widget.TextView;
 public class SimpleItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
+    static final int COLUMN_PERMALINK = 3;
     static final int COLUMN_TITLE = 7;
 
     private final boolean mTwoPane;
@@ -35,6 +36,8 @@ public class SimpleItemRecyclerViewAdapter
     public void onBindViewHolder(final ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         final String title = mCursor.getString(COLUMN_TITLE);
+        final String link = mCursor.getString(COLUMN_PERMALINK);
+
 
         holder.mContentView.setText(title);
 
@@ -43,7 +46,8 @@ public class SimpleItemRecyclerViewAdapter
             public void onClick(View v) {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(StoryDetailFragment.ARG_ITEM_ID, title);
+                    arguments.putString(StoryDetailFragment.ARG_ITEM_TITLE, title);
+                    arguments.putString(StoryDetailFragment.ARG_ITEM_LINK, link);
                     StoryDetailFragment fragment = new StoryDetailFragment();
                     fragment.setArguments(arguments);
                     activity.getSupportFragmentManager().beginTransaction()
@@ -52,7 +56,8 @@ public class SimpleItemRecyclerViewAdapter
                 } else {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, StoryDetailActivity.class);
-                    intent.putExtra(StoryDetailFragment.ARG_ITEM_ID, title);
+                    intent.putExtra(StoryDetailFragment.ARG_ITEM_TITLE, title);
+                    intent.putExtra(StoryDetailFragment.ARG_ITEM_LINK, link);
 
                     context.startActivity(intent);
                 }
