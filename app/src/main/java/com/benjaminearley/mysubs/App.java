@@ -2,6 +2,7 @@ package com.benjaminearley.mysubs;
 
 import android.app.Application;
 
+import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
 import com.google.android.gms.analytics.Tracker;
 
 public class App extends Application {
@@ -9,6 +10,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        MySubsSyncAdapter.initializeSyncAdapter(this);
 
         AnalyticsTrackers.initialize(this);
 

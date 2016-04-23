@@ -18,11 +18,13 @@ import com.benjaminearley.mysubs.R;
 import com.benjaminearley.mysubs.RedditService;
 import com.benjaminearley.mysubs.ServiceGenerator;
 import com.benjaminearley.mysubs.data.MySubsContract;
+import com.benjaminearley.mysubs.model.Child;
 import com.benjaminearley.mysubs.model.Data_;
 import com.benjaminearley.mysubs.model.Listing;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -160,13 +162,18 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
             ArrayList<Data_> storyList = new ArrayList<>();
 
             for (Listing stories : allStories) {
-                int position = 0;
 
-                Data_ story = stories.getData().getChildren().get(position).getData();
+                List<Child> children = stories.getData().getChildren();
 
-                if (story != null) {
-                    storyList.add(story);
+                for (Child child : children) {
+
+                    Data_ story = child.getData();
+
+                    if (story != null) {
+                        storyList.add(story);
+                    }
                 }
+
             }
 
             Uri storyUri = MySubsContract.StoryEntry.buildStory();

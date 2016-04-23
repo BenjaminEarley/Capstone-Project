@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import com.benjaminearley.mysubs.data.MySubsContract;
 import com.benjaminearley.mysubs.model.Data__;
 import com.benjaminearley.mysubs.model.Subreddit;
+import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,6 +89,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
                                     public void onClick(DialogInterface dialog, int which) {
                                         Uri subredditUri = MySubsContract.SubredditEntry.buildSubreddit();
                                         getContext().getContentResolver().delete(subredditUri, "title=?", new String[]{subreddit});
+                                        MySubsSyncAdapter.syncImmediately(getContext());
                                     }
                                 })
                         .setNegativeButton("Cancel", null)
@@ -151,6 +153,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
                         subredditSearch.setText("");
                         showProgress(false);
+                        MySubsSyncAdapter.syncImmediately(getContext());
                     }
 
                     @Override
