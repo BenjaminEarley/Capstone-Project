@@ -40,6 +40,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
     EditText subredditSearch;
     BottomSheetAdapter subredditAdapter;
     RecyclerView recyclerView;
+    Cursor data;
 
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
 
@@ -89,6 +90,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
                 if (searchedText.isEmpty()) {
                     return;
                 }
+
                 WebService.getInstance().getRedditService().getSubredditInfo(searchedText).enqueue(new Callback<Subreddit>() {
                     @Override
                     public void onResponse(Call<Subreddit> call, Response<Subreddit> response) {
@@ -107,13 +109,13 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
                             return;
                         }
 
-//                        mCursor.move(-1);
-//
-//                        while (mCursor.moveToNext()) {
-//                            if (mCursor.getString(COLUMN_URL).equals(subredditData.getUrl())) {
-//                                return;
-//                            }
-//                        }
+                        data.move(-1);
+
+                        while (data.moveToNext()) {
+                            if (data.getString(COLUMN_URL).equals(subredditData.getUrl())) {
+                                return;
+                            }
+                        }
 
                         ContentValues subredditValues = new ContentValues();
 
@@ -161,6 +163,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        this.data = data;
         subredditAdapter.swapCursor(data);
     }
 
