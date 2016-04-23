@@ -1,5 +1,7 @@
 package com.benjaminearley.mysubs;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -12,10 +14,12 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.benjaminearley.mysubs.data.MySubsContract;
@@ -41,6 +45,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
     BottomSheetAdapter subredditAdapter;
     RecyclerView recyclerView;
     Cursor data;
+    ProgressBar spinner;
 
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
 
@@ -79,6 +84,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
         });
         recyclerView.setAdapter(subredditAdapter);
 
+        spinner = (ProgressBar) contentView.findViewById(R.id.spinner);
         subredditSearch = (EditText) contentView.findViewById(R.id.subreddit_search);
         addButton = (ImageButton) contentView.findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -91,21 +97,26 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
                     return;
                 }
 
+                showProgress(true);
+
                 WebService.getInstance().getRedditService().getSubredditInfo(searchedText).enqueue(new Callback<Subreddit>() {
                     @Override
                     public void onResponse(Call<Subreddit> call, Response<Subreddit> response) {
 
                         if (!response.isSuccessful()) {
+                            showDialog("Unable to connect to Reddit. Please try again later");
                             return;
                         }
 
                         if (response.raw().toString().contains("search.json?q")) {
+                            showDialog("This subreddit does not exist");
                             return;
                         }
 
                         Data__ subredditData = response.body().getData();
 
                         if (subredditData.isOver18() || subredditData.isPublicTraffic()) {
+                            showDialog("This subreddit is NSFW or private and not allowed in this app. Sorry for the inconvenience");
                             return;
                         }
 
@@ -113,6 +124,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
                         while (data.moveToNext()) {
                             if (data.getString(COLUMN_URL).equals(subredditData.getUrl())) {
+                                showDialog("You have already subscribed to this sub");
                                 return;
                             }
                         }
@@ -125,17 +137,29 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
                         getContext().getContentResolver().insert(MySubsContract.SubredditEntry.CONTENT_URI, subredditValues);
 
                         subredditSearch.setText("");
+                        showProgress(false);
                     }
 
                     @Override
                     public void onFailure(Call<Subreddit> call, Throwable t) {
-
+                        showDialog("Unable to connect to Reddit. Please try again later");
                     }
                 });
 
             }
         });
 
+
+    }
+
+    private void showDialog(String message) {
+        showProgress(false);
+        new AlertDialog
+                .Builder(getContext())
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .create()
+                .show();
 
     }
 
@@ -170,6 +194,31 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         subredditAdapter.swapCursor(null);
+    }
+
+    private void showProgress(final boolean show) {
+
+
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+        addButton.setVisibility(show ? View.GONE : View.VISIBLE);
+        addButton.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                addButton.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
+
+        spinner.setVisibility(show ? View.VISIBLE : View.GONE);
+        spinner.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                spinner.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
+
     }
 
     public interface SimpleAdapterOnClickHandler {
