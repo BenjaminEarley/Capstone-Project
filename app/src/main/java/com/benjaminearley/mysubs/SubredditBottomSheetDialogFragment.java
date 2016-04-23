@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +21,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.benjaminearley.mysubs.data.MySubsContract;
 import com.benjaminearley.mysubs.model.Data__;
@@ -78,8 +78,21 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
         recyclerView = (RecyclerView) contentView.findViewById(R.id.subreddit_list);
         subredditAdapter = new BottomSheetAdapter(new SimpleAdapterOnClickHandler() {
             @Override
-            public void onClick(String subreddit) {
-                Toast.makeText(getContext(), subreddit, Toast.LENGTH_LONG).show();
+            public void onClick(final String subreddit) {
+
+                new AlertDialog.Builder(getContext())
+                        .setMessage("Are you sure you want to delete \"" + subreddit + "\"?")
+                        .setPositiveButton("Yes",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Uri subredditUri = MySubsContract.SubredditEntry.buildSubreddit();
+                                        getContext().getContentResolver().delete(subredditUri, "title=?", new String[]{subreddit});
+                                    }
+                                })
+                        .setNegativeButton("Cancel", null)
+                        .create()
+                        .show();
             }
         });
         recyclerView.setAdapter(subredditAdapter);

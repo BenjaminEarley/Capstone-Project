@@ -43,7 +43,7 @@ class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHol
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
         private TextView mTextView;
 
@@ -51,14 +51,15 @@ class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHol
         public ViewHolder(View itemView) {
             super(itemView);
             mTextView = (TextView) itemView.findViewById(android.R.id.title);
-            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
-        public void onClick(View v) {
+        public boolean onLongClick(View v) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
             mClickHandler.onClick(mCursor.getString(SubredditBottomSheetDialogFragment.COLUMN_TITLE));
+            return true;
         }
     }
 }
