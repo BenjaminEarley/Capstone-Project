@@ -8,12 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 public class SimpleItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
     static final int COLUMN_PERMALINK = 3;
+    static final int COLUMN_THUMBNAIL = 5;
     static final int COLUMN_TITLE = 7;
 
     private final boolean mTwoPane;
@@ -37,9 +41,14 @@ public class SimpleItemRecyclerViewAdapter
         mCursor.moveToPosition(position);
         final String title = mCursor.getString(COLUMN_TITLE);
         final String link = mCursor.getString(COLUMN_PERMALINK);
-
+        final String thumbnail = mCursor.getString(COLUMN_THUMBNAIL);
 
         holder.mContentView.setText(title);
+
+        Glide.with(activity)
+                .load(thumbnail)
+                .centerCrop()
+                .into(holder.imageView);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,11 +90,13 @@ public class SimpleItemRecyclerViewAdapter
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mContentView;
+        public final ImageView imageView;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (TextView) view.findViewById(R.id.title);
+            imageView = (ImageView) view.findViewById(R.id.image);
         }
 
         @Override
