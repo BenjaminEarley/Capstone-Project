@@ -8,10 +8,21 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.benjaminearley.mysubs.R;
+import com.benjaminearley.mysubs.RedditService;
+import com.benjaminearley.mysubs.ServiceGenerator;
+import com.benjaminearley.mysubs.data.MySubsContract;
+import com.benjaminearley.mysubs.model.Listing;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import retrofit2.Call;
 
 public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -21,7 +32,15 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+    static final int COLUMN_TITLE = 1;
+    static final int COLUMN_URL = 2;
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+    private static final int SUBREDDIT_LOADER = 0;
+    private static final String[] SUBREDDIT_COLUMNS = {
+            MySubsContract.SubredditEntry.TABLE_NAME + "." + MySubsContract.SubredditEntry._ID,
+            MySubsContract.SubredditEntry.COLUMN_TITLE,
+            MySubsContract.SubredditEntry.COLUMN_URL
+    };
 
     public MySubsSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -105,6 +124,37 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+
+        Uri storiesUri = MySubsContract.StoryEntry.buildStory();
+
+        getContext().getContentResolver().delete(storiesUri, null, null);
+
+        Uri subredditUri = MySubsContract.SubredditEntry.buildSubreddit();
+
+        Cursor subreddits = getContext().getContentResolver().query(subredditUri, SUBREDDIT_COLUMNS, null, null, null);
+
+        ArrayList<Listing> allStories = new ArrayList<>();
+
+        if (subreddits != null) {
+            while (subreddits.moveToNext()) {
+
+                String subreddit = subreddits.getString(COLUMN_URL).substring(1);
+
+                RedditService taskService = ServiceGenerator.createService(RedditService.class);
+                Call<Listing> call = taskService.getSubredditHotListing(subreddit);
+                try {
+                    Listing stories = call.execute().body();
+                    allStories.add(stories);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            subreddits.close();
+        }
+
+
 
     }
 }

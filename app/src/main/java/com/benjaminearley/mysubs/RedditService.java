@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 
 public interface RedditService {
 
-    @GET("r/{subreddit}/hot/.json")
+    @GET("{subreddit}/hot/.json")
     Call<Listing> getSubredditHotListing(@Path("subreddit") String subreddit);
 
     @GET("r/{subreddit}/about/.json")
