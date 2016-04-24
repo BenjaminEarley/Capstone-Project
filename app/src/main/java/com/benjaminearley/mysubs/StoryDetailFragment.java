@@ -14,6 +14,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class StoryDetailFragment extends Fragment {
@@ -22,6 +23,7 @@ public class StoryDetailFragment extends Fragment {
     public static final String ARG_ITEM_LINK = "item_url";
     private String title;
     private String link;
+    private ProgressBar progressBar;
 
     public StoryDetailFragment() {
     }
@@ -55,6 +57,10 @@ public class StoryDetailFragment extends Fragment {
         if (link != null && !link.isEmpty()) {
 
             WebView webView = (WebView) rootView.findViewById(R.id.webview);
+            progressBar = (ProgressBar) getActivity().findViewById(R.id.toolbar_progress_bar);
+            if (progressBar != null) {
+                progressBar.setProgress(0);
+            }
 
             WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(true);
@@ -70,6 +76,18 @@ public class StoryDetailFragment extends Fragment {
             });
 
             webView.setWebChromeClient(new WebChromeClient() {
+
+                @Override
+                public void onProgressChanged(WebView view, int progress) {
+
+                    if (progressBar != null) {
+                        progressBar.setProgress(progress);
+                        if (progress >= 100) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
                 @Override
                 public boolean onJsConfirm(
                         WebView view,

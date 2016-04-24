@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-public class SimpleItemRecyclerViewAdapter
-        extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+public class storyRecyclerViewAdapter
+        extends RecyclerView.Adapter<storyRecyclerViewAdapter.ViewHolder> {
 
     static final int COLUMN_PERMALINK = 3;
     static final int COLUMN_THUMBNAIL = 5;
@@ -24,7 +24,7 @@ public class SimpleItemRecyclerViewAdapter
     private final StoryListActivity activity;
     Cursor mCursor;
 
-    public SimpleItemRecyclerViewAdapter(boolean mTwoPane, StoryListActivity activity) {
+    public storyRecyclerViewAdapter(boolean mTwoPane, StoryListActivity activity) {
         this.mTwoPane = mTwoPane;
         this.activity = activity;
     }

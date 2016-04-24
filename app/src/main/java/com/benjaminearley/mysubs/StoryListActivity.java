@@ -43,7 +43,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
     Cursor data;
     private boolean mTwoPane;
     private RecyclerView recyclerView;
-    private SimpleItemRecyclerViewAdapter adapter;
+    private storyRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        adapter = new SimpleItemRecyclerViewAdapter(mTwoPane, this);
+        adapter = new storyRecyclerViewAdapter(mTwoPane, this);
         recyclerView.setAdapter(adapter);
     }
 
