@@ -22,11 +22,13 @@ public class storyRecyclerViewAdapter
 
     private final boolean mTwoPane;
     private final StoryListActivity activity;
-    Cursor mCursor;
+    private Cursor mCursor;
+    private RecyclerView recyclerView;
 
-    public storyRecyclerViewAdapter(boolean mTwoPane, StoryListActivity activity) {
+    public storyRecyclerViewAdapter(RecyclerView recyclerView, boolean mTwoPane, StoryListActivity activity) {
         this.mTwoPane = mTwoPane;
         this.activity = activity;
+        this.recyclerView = recyclerView;
     }
 
     @Override
@@ -67,6 +69,7 @@ public class storyRecyclerViewAdapter
                     Intent intent = new Intent(context, StoryDetailActivity.class);
                     intent.putExtra(StoryDetailFragment.ARG_ITEM_TITLE, title);
                     intent.putExtra(StoryDetailFragment.ARG_ITEM_LINK, link);
+                    intent.putExtra(StoryDetailActivity.ARG_LIST_POSITION, recyclerView.getLayoutManager().onSaveInstanceState());
 
                     context.startActivity(intent);
                 }

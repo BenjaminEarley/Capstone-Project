@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
@@ -80,12 +81,21 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             setupRecyclerView(recyclerView);
         }
 
+
+        if (recyclerView != null) {
+            Parcelable parcelable = getIntent().getParcelableExtra(StoryDetailActivity.ARG_LIST_POSITION);
+            if (parcelable != null) {
+                recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
+            }
+        }
+
+
         getSupportLoaderManager().initLoader(SUBREDDIT_LOADER, null, this);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        adapter = new storyRecyclerViewAdapter(mTwoPane, this);
+        adapter = new storyRecyclerViewAdapter(recyclerView, mTwoPane, this);
         recyclerView.setAdapter(adapter);
     }
 

@@ -12,6 +12,8 @@ import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
 
 public class StoryDetailActivity extends AppCompatActivity {
 
+    public static final String ARG_LIST_POSITION = "list_position";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +65,11 @@ public class StoryDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, StoryListActivity.class));
+
+            Intent intent = new Intent(this, StoryListActivity.class);
+            intent.putExtra(ARG_LIST_POSITION, getIntent().getParcelableExtra(ARG_LIST_POSITION));
+
+            NavUtils.navigateUpTo(this, intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

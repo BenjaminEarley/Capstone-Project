@@ -16,4 +16,5 @@
     <string name="delete">Delete</string>
     <string name="toast_web_error">Could Not Load Page. Please Try Again Later</string>
     <string name="reddit_url_webview" translatable="false">https://m.reddit.com</string>
+
 </resources>
