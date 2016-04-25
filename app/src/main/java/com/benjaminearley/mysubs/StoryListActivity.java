@@ -14,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -50,6 +51,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
     private boolean mTwoPane;
     private RecyclerView recyclerView;
     private storyRecyclerViewAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +124,22 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
 
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+
+        if (swipeRefreshLayout != null) {
+
+            swipeRefreshLayout.setColorSchemeResources(
+                    R.color.colorPrimary
+            );
+
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        }
 
 
         getSupportLoaderManager().initLoader(SUBREDDIT_LOADER, null, this);
