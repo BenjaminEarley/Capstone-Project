@@ -33,7 +33,8 @@ public class MySubsDbHelper extends SQLiteOpenHelper {
                 StoryEntry.COLUMN_PERMALINK + " TEXT NULLABLE," +
                 StoryEntry.COLUMN_SCORE + " INTEGER NULLABLE," +
                 StoryEntry.COLUMN_THUMBNAIL + " TEXT NULLABLE," +
-                StoryEntry.COLUMN_UNIX_TIMESTAMP + " NULLABLE," +
+                StoryEntry.COLUMN_UNIX_TIMESTAMP + " INTEGER NULLABLE," +
+                StoryEntry.COLUMN_ID + " TEXT NULLABLE," +
                 StoryEntry.COLUMN_TITLE + " TEXT NULLABLE);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_SUBREDDIT_TABLE);

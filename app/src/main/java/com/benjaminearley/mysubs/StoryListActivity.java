@@ -17,6 +17,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,9 +42,11 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             MySubsContract.StoryEntry.COLUMN_SCORE,
             MySubsContract.StoryEntry.COLUMN_THUMBNAIL,
             MySubsContract.StoryEntry.COLUMN_UNIX_TIMESTAMP,
+            MySubsContract.StoryEntry.COLUMN_ID,
             MySubsContract.StoryEntry.COLUMN_TITLE
     };
-    Cursor data;
+
+    private Uri storyUri = MySubsContract.StoryEntry.buildStory();
     private boolean mTwoPane;
     private RecyclerView recyclerView;
     private storyRecyclerViewAdapter adapter;
@@ -102,6 +105,23 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
                 recyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
             }
         }
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                getContentResolver().delete(storyUri, "id=?", new String[]{((storyRecyclerViewAdapter.ViewHolder) viewHolder).identification});
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
         getSupportLoaderManager().initLoader(SUBREDDIT_LOADER, null, this);
@@ -169,7 +189,6 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri storyUri = MySubsContract.StoryEntry.buildStory();
 
         return new CursorLoader(this,
                 storyUri,
@@ -182,7 +201,6 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        this.data = data;
         adapter.swapCursor(data);
     }
 

@@ -70,6 +70,8 @@ public class MySubsContract {
 
         public static final String COLUMN_TITLE = "title";
 
+        public static final String COLUMN_ID = "id";
+
         public static Uri buildStoryUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }

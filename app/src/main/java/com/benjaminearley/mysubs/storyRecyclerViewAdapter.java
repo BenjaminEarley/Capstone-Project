@@ -18,7 +18,8 @@ public class storyRecyclerViewAdapter
 
     static final int COLUMN_PERMALINK = 3;
     static final int COLUMN_THUMBNAIL = 5;
-    static final int COLUMN_TITLE = 7;
+    static final int COLUMN_ID = 7;
+    static final int COLUMN_TITLE = 8;
 
     private final boolean mTwoPane;
     private final StoryListActivity activity;
@@ -44,6 +45,8 @@ public class storyRecyclerViewAdapter
         final String title = mCursor.getString(COLUMN_TITLE);
         final String link = mCursor.getString(COLUMN_PERMALINK);
         final String thumbnail = mCursor.getString(COLUMN_THUMBNAIL);
+
+        holder.identification = mCursor.getString(COLUMN_ID);
 
         holder.mContentView.setText(title);
 
@@ -94,6 +97,7 @@ public class storyRecyclerViewAdapter
         public final View mView;
         public final TextView mContentView;
         public final ImageView imageView;
+        public String identification;
 
         public ViewHolder(View view) {
             super(view);
