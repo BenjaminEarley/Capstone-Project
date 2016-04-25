@@ -196,6 +196,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
     private void onInviteClicked() {
         Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                 .setMessage(getString(R.string.invitation_message))
+                .setGoogleAnalyticsTrackingId("UA-76358424-1")
                 .setEmailHtmlContent("<html><body>" +
                         "<h1>" + getString(R.string.invite_h1) + "</h1>" +
                         "<a href=\"%%APPINVITE_LINK_PLACEHOLDER%%\">" + getString(R.string.invite_a) + "</a>" +
