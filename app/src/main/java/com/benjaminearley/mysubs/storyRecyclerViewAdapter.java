@@ -1,14 +1,19 @@
 package com.benjaminearley.mysubs;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,11 +30,17 @@ public class storyRecyclerViewAdapter
     private final StoryListActivity activity;
     private Cursor mCursor;
     private RecyclerView recyclerView;
+    private float offset;
+    private int lastPosition = -1;
+    private Interpolator interpolator;
 
     public storyRecyclerViewAdapter(RecyclerView recyclerView, boolean mTwoPane, StoryListActivity activity) {
         this.mTwoPane = mTwoPane;
         this.activity = activity;
         this.recyclerView = recyclerView;
+        offset = activity.getResources().getDimensionPixelSize(R.dimen.offset_y);
+        interpolator =
+                AnimationUtils.loadInterpolator(activity, android.R.interpolator.linear_out_slow_in);
     }
 
     @Override
@@ -78,7 +89,33 @@ public class storyRecyclerViewAdapter
                 }
             }
         });
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            setAnimation(holder.container, position);
+        }
     }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setAnimation(RelativeLayout container, int position) {
+
+        if (position > lastPosition && position <= 6) {
+            container.setVisibility(View.VISIBLE);
+            container.setTranslationY(offset);
+            container.setAlpha(0.85f);
+            // then animate back to natural position
+            container.animate()
+                    .translationY(0f)
+                    .alpha(1f)
+                    .setInterpolator(interpolator)
+                    .setDuration(750L)
+                    .start();
+
+            offset *= 1.5f;
+            lastPosition = position;
+        }
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -97,6 +134,7 @@ public class storyRecyclerViewAdapter
         public final View mView;
         public final TextView mContentView;
         public final ImageView imageView;
+        public final RelativeLayout container;
         public String identification;
 
         public ViewHolder(View view) {
@@ -104,6 +142,7 @@ public class storyRecyclerViewAdapter
             mView = view;
             mContentView = (TextView) view.findViewById(R.id.title);
             imageView = (ImageView) view.findViewById(R.id.image);
+            container = (RelativeLayout) view.findViewById(R.id.container);
         }
 
         @Override
