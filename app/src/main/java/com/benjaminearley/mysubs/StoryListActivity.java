@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
@@ -76,6 +78,18 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             // If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
+        } else {
+            try {
+                AppBarLayout.LayoutParams toolbarParams =
+                        (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                toolbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                        | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+
+                CoordinatorLayout.LayoutParams fabParams =
+                        (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+                fabParams.setBehavior(new FABScrollBehavior());
+            } catch (NullPointerException ignored) {
+            }
         }
         if (recyclerView != null) {
             setupRecyclerView(recyclerView);
