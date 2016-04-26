@@ -165,16 +165,21 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 List<Child> children = stories.getData().getChildren();
 
+                int i = 0;
+
                 for (Child child : children) {
 
                     Data_ story = child.getData();
 
                     if (story != null) {
+                        story.setPosition(i);
                         storyList.add(story);
+                        i++;
                     }
                 }
 
             }
+
 
             Uri storyUri = MySubsContract.StoryEntry.buildStory();
 
@@ -189,6 +194,7 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_THUMBNAIL, storyList.get(i).getThumbnail());
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_TITLE, storyList.get(i).getTitle());
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_ID, storyList.get(i).getId());
+                storyValues[i].put(MySubsContract.StoryEntry.COLUMN_POSITION, storyList.get(i).getPosition());
             }
 
             getContext().getContentResolver().bulkInsert(storyUri, storyValues);

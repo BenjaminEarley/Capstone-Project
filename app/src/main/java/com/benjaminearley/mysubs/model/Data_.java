@@ -47,6 +47,15 @@ public class Data_ {
     private List<Object> modReports = new ArrayList<Object>();
     private Object numReports;
     private int ups;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     /**
      * @return The domain

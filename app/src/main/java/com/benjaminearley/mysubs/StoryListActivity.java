@@ -225,7 +225,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
                 STORY_COLUMNS,
                 null,
                 null,
-                null);
+                MySubsContract.StoryEntry.COLUMN_POSITION + " ASC");
     }
 
 
