@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <RelativeLayout
+            android:id="@+id/toolbar_relative_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

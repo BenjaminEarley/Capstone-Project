@@ -2,17 +2,18 @@ package com.benjaminearley.mysubs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
-import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
+import android.widget.RelativeLayout;
 
 public class StoryDetailActivity extends AppCompatActivity {
 
     public static final String ARG_LIST_POSITION = "list_position";
+    public static final String ARG_NO_ANIMATION = "animation";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,12 @@ public class StoryDetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        MySubsSyncAdapter.initializeSyncAdapter(this);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.toolbar_relative_layout);
+
+        AppBarLayout.LayoutParams toolbarParams =
+                (AppBarLayout.LayoutParams) relativeLayout.getLayoutParams();
+        toolbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -68,6 +74,7 @@ public class StoryDetailActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, StoryListActivity.class);
             intent.putExtra(ARG_LIST_POSITION, getIntent().getParcelableExtra(ARG_LIST_POSITION));
+            intent.putExtra(ARG_NO_ANIMATION, true);
 
             NavUtils.navigateUpTo(this, intent);
             return true;

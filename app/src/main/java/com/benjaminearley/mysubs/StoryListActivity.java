@@ -49,6 +49,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
     final int[] position = {-1};
     private Uri storyUri = MySubsContract.StoryEntry.buildStory();
     private boolean mTwoPane;
+    private boolean noEntryAnimation;
     private RecyclerView recyclerView;
     private storyRecyclerViewAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -96,6 +97,13 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             } catch (NullPointerException ignored) {
             }
         }
+        noEntryAnimation = getIntent().getBooleanExtra(StoryDetailActivity.ARG_NO_ANIMATION, false);
+
+        if (savedInstanceState != null) {
+            noEntryAnimation = true;
+        }
+
+
         if (recyclerView != null) {
             setupRecyclerView(recyclerView);
         }
@@ -150,7 +158,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        adapter = new storyRecyclerViewAdapter(recyclerView, mTwoPane, this);
+        adapter = new storyRecyclerViewAdapter(recyclerView, mTwoPane, noEntryAnimation, this);
         recyclerView.setAdapter(adapter);
     }
 

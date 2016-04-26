@@ -28,16 +28,18 @@ public class storyRecyclerViewAdapter
 
     private final boolean mTwoPane;
     private final StoryListActivity activity;
+    private final boolean noEntryAnimation;
     private Cursor mCursor;
     private RecyclerView recyclerView;
     private float offset;
     private int lastPosition = -1;
     private Interpolator interpolator;
 
-    public storyRecyclerViewAdapter(RecyclerView recyclerView, boolean mTwoPane, StoryListActivity activity) {
+    public storyRecyclerViewAdapter(RecyclerView recyclerView, boolean mTwoPane, boolean noEntryAnimation, StoryListActivity activity) {
         this.mTwoPane = mTwoPane;
         this.activity = activity;
         this.recyclerView = recyclerView;
+        this.noEntryAnimation = noEntryAnimation;
         offset = activity.getResources().getDimensionPixelSize(R.dimen.offset_y);
         interpolator =
                 AnimationUtils.loadInterpolator(activity, android.R.interpolator.linear_out_slow_in);
@@ -61,10 +63,15 @@ public class storyRecyclerViewAdapter
 
         holder.mContentView.setText(title);
 
-        Glide.with(activity)
-                .load(thumbnail)
-                .centerCrop()
-                .into(holder.imageView);
+        if (thumbnail != null && thumbnail.contains("http")) {
+            holder.imageView.setVisibility(View.VISIBLE);
+            Glide.with(activity)
+                    .load(thumbnail)
+                    .centerCrop()
+                    .into(holder.imageView);
+        } else {
+            holder.imageView.setVisibility(View.GONE);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +97,7 @@ public class storyRecyclerViewAdapter
             }
         });
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && !noEntryAnimation) {
             setAnimation(holder.container, position);
         }
     }
