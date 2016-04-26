@@ -46,7 +46,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             MySubsContract.StoryEntry.COLUMN_ID,
             MySubsContract.StoryEntry.COLUMN_TITLE
     };
-
+    final int[] position = {-1};
     private Uri storyUri = MySubsContract.StoryEntry.buildStory();
     private boolean mTwoPane;
     private RecyclerView recyclerView;
@@ -116,7 +116,10 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+                position[0] = viewHolder.getAdapterPosition();
+
                 getContentResolver().delete(storyUri, "id=?", new String[]{((storyRecyclerViewAdapter.ViewHolder) viewHolder).identification});
             }
         };
@@ -220,11 +223,12 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        adapter.swapCursor(data);
+        adapter.swapCursor(data, position[0]);
+        position[0] = -1;
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        adapter.swapCursor(null);
+        adapter.swapCursor(null, -1);
     }
 }

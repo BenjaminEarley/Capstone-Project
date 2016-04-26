@@ -123,10 +123,14 @@ public class storyRecyclerViewAdapter
         return mCursor.getCount();
     }
 
-    public void swapCursor(Cursor newCursor) {
+    public void swapCursor(Cursor newCursor, int position) {
         mCursor = newCursor;
         if (newCursor != null) {
-            notifyDataSetChanged();
+            if (position == -1) {
+                notifyDataSetChanged();
+            } else {
+                notifyItemRemoved(position);
+            }
         }
     }
 
