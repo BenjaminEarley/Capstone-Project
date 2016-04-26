@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.benjaminearley.mysubs.data.MySubsContract;
+import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 
@@ -147,11 +148,12 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+                    position[0] = -2;
+                    MySubsSyncAdapter.syncImmediately(StoryListActivity.this);
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
         }
-
 
         getSupportLoaderManager().initLoader(SUBREDDIT_LOADER, null, this);
     }
