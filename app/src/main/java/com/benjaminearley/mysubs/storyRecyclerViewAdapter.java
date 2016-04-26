@@ -41,8 +41,10 @@ public class storyRecyclerViewAdapter
         this.recyclerView = recyclerView;
         this.noEntryAnimation = noEntryAnimation;
         offset = activity.getResources().getDimensionPixelSize(R.dimen.offset_y);
-        interpolator =
-                AnimationUtils.loadInterpolator(activity, android.R.interpolator.linear_out_slow_in);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            interpolator =
+                    AnimationUtils.loadInterpolator(activity, android.R.interpolator.linear_out_slow_in);
+        }
     }
 
     @Override
