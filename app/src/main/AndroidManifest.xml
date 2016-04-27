@@ -68,6 +68,9 @@
             android:authorities="@string/content_authority"
             android:enabled="true"
             android:exported="false" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="4d6f7aa4e61f74e886d654e56fca4c6caa83da1c" />
     </application>
 
 </manifest>
