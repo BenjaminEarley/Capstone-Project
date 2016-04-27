@@ -194,6 +194,7 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_THUMBNAIL, storyList.get(i).getThumbnail());
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_TITLE, storyList.get(i).getTitle());
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_ID, storyList.get(i).getId());
+                storyValues[i].put(MySubsContract.StoryEntry.COLUMN_UNIX_TIMESTAMP, storyList.get(i).getCreated_utc());
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_POSITION, storyList.get(i).getPosition());
             }
 

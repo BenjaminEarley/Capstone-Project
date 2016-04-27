@@ -42,7 +42,7 @@ public class Data_ {
     private String url;
     private Object authorFlairText;
     private String title;
-    private double createdUtc;
+    private double created_utc;
     private Object distinguished;
     private List<Object> modReports = new ArrayList<Object>();
     private Object numReports;
@@ -572,17 +572,17 @@ public class Data_ {
     }
 
     /**
-     * @return The createdUtc
+     * @return The created_utc
      */
-    public double getCreatedUtc() {
-        return createdUtc;
+    public double getCreated_utc() {
+        return created_utc;
     }
 
     /**
-     * @param createdUtc The created_utc
+     * @param created_utc The created_utc
      */
-    public void setCreatedUtc(double createdUtc) {
-        this.createdUtc = createdUtc;
+    public void setCreated_utc(double created_utc) {
+        this.created_utc = created_utc;
     }
 
     /**

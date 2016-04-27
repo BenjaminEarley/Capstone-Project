@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +20,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.concurrent.TimeUnit;
+
 public class storyRecyclerViewAdapter
         extends RecyclerView.Adapter<storyRecyclerViewAdapter.ViewHolder> {
 
+    static final int COLUMN_SUBREDDIT = 1;
+    static final int COLUMN_AUTHOR = 2;
     static final int COLUMN_PERMALINK = 3;
+    static final int COLUMN_SCORE = 4;
     static final int COLUMN_THUMBNAIL = 5;
+    static final int COLUMN_UNIX_TIMESTAMP = 6;
     static final int COLUMN_ID = 7;
     static final int COLUMN_TITLE = 8;
 
@@ -58,12 +66,28 @@ public class storyRecyclerViewAdapter
     public void onBindViewHolder(final ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         final String title = mCursor.getString(COLUMN_TITLE);
+        final String score = String.valueOf(mCursor.getInt(COLUMN_SCORE));
         final String link = mCursor.getString(COLUMN_PERMALINK);
         final String thumbnail = mCursor.getString(COLUMN_THUMBNAIL);
+        final String author = mCursor.getString(COLUMN_AUTHOR);
+        final String subreddit = mCursor.getString(COLUMN_SUBREDDIT);
 
         holder.identification = mCursor.getString(COLUMN_ID);
 
-        holder.mContentView.setText(title);
+        holder.contentView.setText(title);
+        holder.scoreView.setText(score);
+        holder.authorView.setText(author);
+        holder.subredditView.setText(subreddit);
+
+        Log.d("TEST", String.valueOf(TimeUnit.SECONDS.toMillis(mCursor.getLong(COLUMN_UNIX_TIMESTAMP))));
+        Log.d("TEST", String.valueOf(System.currentTimeMillis()));
+
+        String timePassedString = (String) DateUtils.getRelativeTimeSpanString(TimeUnit.SECONDS.toMillis(mCursor.getLong(COLUMN_UNIX_TIMESTAMP)), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+
+        if (timePassedString != null) {
+            holder.timeView.setText(timePassedString);
+        }
+
 
         if (thumbnail != null && thumbnail.contains("http")) {
             holder.imageView.setVisibility(View.VISIBLE);
@@ -149,7 +173,11 @@ public class storyRecyclerViewAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mContentView;
+        public final TextView scoreView;
+        public final TextView contentView;
+        public final TextView authorView;
+        public final TextView subredditView;
+        public final TextView timeView;
         public final ImageView imageView;
         public final RelativeLayout container;
         public String identification;
@@ -157,14 +185,18 @@ public class storyRecyclerViewAdapter
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mContentView = (TextView) view.findViewById(R.id.title);
+            contentView = (TextView) view.findViewById(R.id.title);
+            scoreView = (TextView) view.findViewById(R.id.score);
+            authorView = (TextView) view.findViewById(R.id.author);
+            subredditView = (TextView) view.findViewById(R.id.subreddit);
+            timeView = (TextView) view.findViewById(R.id.time);
             imageView = (ImageView) view.findViewById(R.id.image);
             container = (RelativeLayout) view.findViewById(R.id.container);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + contentView.getText() + "'";
         }
     }
 }
