@@ -82,17 +82,21 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
             public void onClick(final String subreddit) {
 
                 new AlertDialog.Builder(getContext())
-                        .setMessage("Are you sure you want to delete \"" + subreddit + "\"?")
-                        .setPositiveButton("Yes",
+                        .setMessage(
+                                String.format(
+                                        getActivity().getString(R.string.delete_subreddit_message),
+                                        subreddit))
+
+                        .setPositiveButton(getActivity().getString(R.string.delete_subreddit_positive_button_text),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Uri subredditUri = MySubsContract.SubredditEntry.buildSubreddit();
-                                        getContext().getContentResolver().delete(subredditUri, "title=?", new String[]{subreddit});
+                                        getContext().getContentResolver().delete(subredditUri, getActivity().getString(R.string.db_title_query), new String[]{subreddit});
                                         MySubsSyncAdapter.syncImmediately(getContext());
                                     }
                                 })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(getActivity().getString(R.string.delete_subreddit_negative_button_text), null)
                         .create()
                         .show();
             }
@@ -112,55 +116,59 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
                     return;
                 }
 
-                showProgress(true);
+                if (Utility.isNetworkAvailable(getContext())) {
 
-                WebService.getInstance().getRedditService().getSubredditInfo(searchedText).enqueue(new Callback<Subreddit>() {
-                    @Override
-                    public void onResponse(Call<Subreddit> call, Response<Subreddit> response) {
+                    showProgress(true);
+                    WebService.getInstance().getRedditService().getSubredditInfo(searchedText).enqueue(new Callback<Subreddit>() {
+                        @Override
+                        public void onResponse(Call<Subreddit> call, Response<Subreddit> response) {
 
-                        if (!response.isSuccessful()) {
-                            showDialog("Unable to connect to Reddit. Please try again later");
-                            return;
-                        }
-
-                        if (response.raw().toString().contains("search.json?q")) {
-                            showDialog("This subreddit does not exist");
-                            return;
-                        }
-
-                        Data__ subredditData = response.body().getData();
-
-                        if (subredditData.isOver18()) {
-                            showDialog("This subreddit is age restricted and not allowed in this app. Sorry for the inconvenience");
-                            return;
-                        }
-
-                        data.move(-1);
-
-                        while (data.moveToNext()) {
-                            if (data.getString(COLUMN_URL).equals(subredditData.getUrl())) {
-                                showDialog("You have already subscribed to this sub");
+                            if (!response.isSuccessful()) {
+                                showDialog(getActivity().getString(R.string.add_subreddit_unable_to_connect));
                                 return;
                             }
+
+                            if (response.raw().toString().contains(getActivity().getString(R.string.no_subreddit_by_that_name_json_check))) {
+                                showDialog(getActivity().getString(R.string.add_subreddit_does_not_exist));
+                                return;
+                            }
+
+                            Data__ subredditData = response.body().getData();
+
+                            if (subredditData.isOver18()) {
+                                showDialog(getActivity().getString(R.string.add_subreddit_age_restricted));
+                                return;
+                            }
+
+                            data.move(-1);
+
+                            while (data.moveToNext()) {
+                                if (data.getString(COLUMN_URL).equals(subredditData.getUrl())) {
+                                    showDialog(getActivity().getString(R.string.duplicate_sub));
+                                    return;
+                                }
+                            }
+
+                            ContentValues subredditValues = new ContentValues();
+
+                            subredditValues.put(MySubsContract.SubredditEntry.COLUMN_TITLE, subredditData.getTitle());
+                            subredditValues.put(MySubsContract.SubredditEntry.COLUMN_URL, subredditData.getUrl());
+
+                            getContext().getContentResolver().insert(MySubsContract.SubredditEntry.CONTENT_URI, subredditValues);
+
+                            subredditSearch.setText("");
+                            showProgress(false);
+                            MySubsSyncAdapter.syncImmediately(getContext());
                         }
 
-                        ContentValues subredditValues = new ContentValues();
-
-                        subredditValues.put(MySubsContract.SubredditEntry.COLUMN_TITLE, subredditData.getTitle());
-                        subredditValues.put(MySubsContract.SubredditEntry.COLUMN_URL, subredditData.getUrl());
-
-                        getContext().getContentResolver().insert(MySubsContract.SubredditEntry.CONTENT_URI, subredditValues);
-
-                        subredditSearch.setText("");
-                        showProgress(false);
-                        MySubsSyncAdapter.syncImmediately(getContext());
-                    }
-
-                    @Override
-                    public void onFailure(Call<Subreddit> call, Throwable t) {
-                        showDialog("Unable to connect to Reddit. Please try again later");
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<Subreddit> call, Throwable t) {
+                            showDialog(getActivity().getString(R.string.add_subreddit_unable_to_connect));
+                        }
+                    });
+                } else {
+                    showDialog(getActivity().getString(R.string.add_subreddit_not_internet));
+                }
 
             }
         });
@@ -173,7 +181,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
         new AlertDialog
                 .Builder(getContext())
                 .setMessage(message)
-                .setPositiveButton("OK", null)
+                .setPositiveButton(getActivity().getString(R.string.basic_dialog_positive_button_text), null)
                 .create()
                 .show();
 

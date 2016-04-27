@@ -16,5 +16,17 @@
     <string name="delete">Delete</string>
     <string name="toast_web_error">Could Not Load Page. Please Try Again Later</string>
     <string name="reddit_url_webview" translatable="false">https://m.reddit.com</string>
+    <string name="add_subreddit">Add Subreddit</string>
+    <string name="add_subreddit_not_internet">Network is not available. Please try again once you connect.</string>
+    <string name="add_subreddit_unable_to_connect">Unable to connect to Reddit. Please try again later.</string>
+    <string name="no_subreddit_by_that_name_json_check" translatable="false">search.json?q</string>
+    <string name="add_subreddit_does_not_exist">This subreddit does not exist.</string>
+    <string name="add_subreddit_age_restricted">This subreddit is age restricted and not allowed in this app. Sorry for the inconvenience.</string>
+    <string name="duplicate_sub">You have already subscribed to this sub.</string>
+    <string name="delete_subreddit_negative_button_text">Cancel</string>
+    <string name="delete_subreddit_positive_button_text">Yes</string>
+    <string name="delete_subreddit_message">Are you sure you want to delete \" %1$s \"?</string>
+    <string name="db_title_query" translatable="false">title=?</string>
+    <string name="basic_dialog_positive_button_text">OK</string>
 
 </resources>
