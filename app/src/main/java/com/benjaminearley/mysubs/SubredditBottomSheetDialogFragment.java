@@ -130,11 +130,6 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
                         Data__ subredditData = response.body().getData();
 
-                        if (!subredditData.isPublicTraffic()) {
-                            showDialog("This subreddit is set to private. Sorry for the inconvenience");
-                            return;
-                        }
-
                         if (subredditData.isOver18()) {
                             showDialog("This subreddit is age restricted and not allowed in this app. Sorry for the inconvenience");
                             return;

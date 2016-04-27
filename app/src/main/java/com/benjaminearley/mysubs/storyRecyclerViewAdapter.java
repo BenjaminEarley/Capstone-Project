@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +77,6 @@ public class storyRecyclerViewAdapter
         holder.scoreView.setText(score);
         holder.authorView.setText(author);
         holder.subredditView.setText(subreddit);
-
-        Log.d("TEST", String.valueOf(TimeUnit.SECONDS.toMillis(mCursor.getLong(COLUMN_UNIX_TIMESTAMP))));
-        Log.d("TEST", String.valueOf(System.currentTimeMillis()));
 
         String timePassedString = (String) DateUtils.getRelativeTimeSpanString(TimeUnit.SECONDS.toMillis(mCursor.getLong(COLUMN_UNIX_TIMESTAMP)), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
 

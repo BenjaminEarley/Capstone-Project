@@ -43,6 +43,7 @@
 
                     <TextView
                         android:id="@+id/score"
+                        style="@style/Score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingEnd="4sp"
@@ -50,16 +51,19 @@
 
                     <TextView
                         android:id="@+id/author"
+                        style="@style/Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <TextView
+                        style="@style/Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="&#160;in&#160;" />
 
                     <TextView
                         android:id="@+id/subreddit"
+                        style="@style/Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -67,6 +71,7 @@
 
                 <TextView
                     android:id="@+id/title"
+                    style="@style/Body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical" />
@@ -74,6 +79,7 @@
 
                 <TextView
                     android:id="@+id/time"
+                    style="@style/Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
