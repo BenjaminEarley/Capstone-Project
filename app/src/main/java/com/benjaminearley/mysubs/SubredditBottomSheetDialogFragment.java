@@ -217,7 +217,6 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-        addButton.setVisibility(show ? View.GONE : View.VISIBLE);
         addButton.animate().setDuration(shortAnimTime).alpha(
                 show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
             @Override
@@ -226,7 +225,6 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
             }
         });
 
-        spinner.setVisibility(show ? View.VISIBLE : View.GONE);
         spinner.animate().setDuration(shortAnimTime).alpha(
                 show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
             @Override

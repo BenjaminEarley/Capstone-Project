@@ -130,9 +130,6 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
         Uri storiesUri = MySubsContract.StoryEntry.buildStory();
-
-        getContext().getContentResolver().delete(storiesUri, null, null);
-
         Uri subredditUri = MySubsContract.SubredditEntry.buildSubreddit();
 
         Cursor subreddits = getContext().getContentResolver().query(subredditUri, SUBREDDIT_COLUMNS, null, null, null);
@@ -180,6 +177,7 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
 
             }
 
+            getContext().getContentResolver().delete(storiesUri, null, null);
 
             Uri storyUri = MySubsContract.StoryEntry.buildStory();
 
@@ -197,6 +195,7 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_UNIX_TIMESTAMP, storyList.get(i).getCreated_utc());
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_POSITION, storyList.get(i).getPosition());
             }
+
 
             getContext().getContentResolver().bulkInsert(storyUri, storyValues);
 
