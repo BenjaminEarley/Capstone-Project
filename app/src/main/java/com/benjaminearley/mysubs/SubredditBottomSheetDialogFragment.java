@@ -47,6 +47,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
     RecyclerView recyclerView;
     Cursor data;
     ProgressBar spinner;
+    Integer deletePosition = null;
 
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
 
@@ -79,7 +80,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
         recyclerView = (RecyclerView) contentView.findViewById(R.id.subreddit_list);
         subredditAdapter = new BottomSheetAdapter(new SimpleAdapterOnClickHandler() {
             @Override
-            public void onClick(final String subreddit) {
+            public void onClick(final String subreddit, final int position) {
 
                 new AlertDialog.Builder(getContext())
                         .setMessage(
@@ -92,6 +93,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Uri subredditUri = MySubsContract.SubredditEntry.buildSubreddit();
+                                        deletePosition = position;
                                         getContext().getContentResolver().delete(subredditUri, getActivity().getString(R.string.db_title_query), new String[]{subreddit});
                                         MySubsSyncAdapter.syncImmediately(getContext());
                                     }
@@ -212,12 +214,13 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         this.data = data;
-        subredditAdapter.swapCursor(data);
+        subredditAdapter.swapCursor(data, deletePosition);
+        deletePosition = null;
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        subredditAdapter.swapCursor(null);
+        subredditAdapter.swapCursor(null, -1);
     }
 
     private void showProgress(final boolean show) {
@@ -244,7 +247,7 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
     }
 
     public interface SimpleAdapterOnClickHandler {
-        void onClick(String subreddit);
+        void onClick(String subreddit, int position);
     }
 
 }

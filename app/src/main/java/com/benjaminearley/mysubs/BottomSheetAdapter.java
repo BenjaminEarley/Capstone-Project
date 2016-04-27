@@ -10,7 +10,9 @@ import android.widget.TextView;
 class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHolder> {
 
     final private SubredditBottomSheetDialogFragment.SimpleAdapterOnClickHandler mClickHandler;
-    Cursor mCursor;
+    private Cursor mCursor;
+    private Integer removalPosition = null;
+
 
     public BottomSheetAdapter(SubredditBottomSheetDialogFragment.SimpleAdapterOnClickHandler mClickHandler) {
         this.mClickHandler = mClickHandler;
@@ -35,10 +37,16 @@ class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHol
         return mCursor.getCount();
     }
 
-    public void swapCursor(Cursor newCursor) {
+    public void swapCursor(Cursor newCursor, Integer deletePosition) {
         mCursor = newCursor;
         if (newCursor != null) {
-            notifyDataSetChanged();
+            if (deletePosition == null) {
+                notifyItemInserted(0);
+            } else if (deletePosition == -1) {
+                notifyDataSetChanged();
+            } else {
+                notifyItemRemoved(deletePosition);
+            }
         }
     }
 
@@ -58,7 +66,7 @@ class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHol
         public boolean onLongClick(View v) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
-            mClickHandler.onClick(mCursor.getString(SubredditBottomSheetDialogFragment.COLUMN_TITLE));
+            mClickHandler.onClick(mCursor.getString(SubredditBottomSheetDialogFragment.COLUMN_TITLE), adapterPosition);
             return true;
         }
     }
