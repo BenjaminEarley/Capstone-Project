@@ -21,8 +21,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.concurrent.TimeUnit;
 
-public class storyRecyclerViewAdapter
-        extends RecyclerView.Adapter<storyRecyclerViewAdapter.ViewHolder> {
+public class StoryRecyclerViewAdapter
+        extends RecyclerView.Adapter<StoryRecyclerViewAdapter.ViewHolder> {
 
     static final int COLUMN_SUBREDDIT = 1;
     static final int COLUMN_AUTHOR = 2;
@@ -42,7 +42,7 @@ public class storyRecyclerViewAdapter
     private int lastPosition = -1;
     private Interpolator interpolator;
 
-    public storyRecyclerViewAdapter(RecyclerView recyclerView, boolean mTwoPane, boolean noEntryAnimation, StoryListActivity activity) {
+    public StoryRecyclerViewAdapter(RecyclerView recyclerView, boolean mTwoPane, boolean noEntryAnimation, StoryListActivity activity) {
         this.mTwoPane = mTwoPane;
         this.activity = activity;
         this.recyclerView = recyclerView;

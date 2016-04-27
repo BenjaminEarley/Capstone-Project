@@ -52,7 +52,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
     private boolean mTwoPane;
     private boolean noEntryAnimation;
     private RecyclerView recyclerView;
-    private storyRecyclerViewAdapter adapter;
+    private StoryRecyclerViewAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -129,7 +129,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
                 position[0] = viewHolder.getAdapterPosition();
 
-                getContentResolver().delete(storyUri, "id=?", new String[]{((storyRecyclerViewAdapter.ViewHolder) viewHolder).identification});
+                getContentResolver().delete(storyUri, "id=?", new String[]{((StoryRecyclerViewAdapter.ViewHolder) viewHolder).identification});
             }
         };
 
@@ -160,7 +160,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        adapter = new storyRecyclerViewAdapter(recyclerView, mTwoPane, noEntryAnimation, this);
+        adapter = new StoryRecyclerViewAdapter(recyclerView, mTwoPane, noEntryAnimation, this);
         recyclerView.setAdapter(adapter);
     }
 
