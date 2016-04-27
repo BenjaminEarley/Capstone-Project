@@ -1,10 +1,12 @@
 package com.benjaminearley.mysubs;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -31,7 +33,7 @@ import com.google.android.gms.appinvite.AppInviteInvitation;
 
 import java.util.Arrays;
 
-public class StoryListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class StoryListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int REQUEST_INVITE = 0;
     private static final int SUBREDDIT_LOADER = 1;
@@ -160,12 +162,25 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
                 @Override
                 public void onRefresh() {
                     MySubsSyncAdapter.syncImmediately(StoryListActivity.this);
-                    swipeRefreshLayout.setRefreshing(false);
                 }
             });
         }
 
         getSupportLoaderManager().initLoader(SUBREDDIT_LOADER, null, this);
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.registerOnSharedPreferenceChangeListener(this);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -249,6 +264,25 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.swapCursor(null, -1);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.pref_sync_adapter_status_key)) && swipeRefreshLayout != null) {
+            @MySubsSyncAdapter.SyncStatus int status = Utility.getSyncStatus(this);
+
+            switch (status) {
+                case MySubsSyncAdapter.ADAPTER_SYNCING:
+                    swipeRefreshLayout.setRefreshing(true);
+                    break;
+                case MySubsSyncAdapter.ADAPTER_SYNCED:
+                    swipeRefreshLayout.setRefreshing(false);
+                    break;
+                default:
+                    swipeRefreshLayout.setRefreshing(false);
+                    break;
+            }
+        }
     }
 
     interface Getter {

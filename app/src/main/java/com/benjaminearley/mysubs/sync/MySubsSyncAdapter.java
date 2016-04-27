@@ -7,12 +7,15 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 
 import com.benjaminearley.mysubs.R;
 import com.benjaminearley.mysubs.RedditService;
@@ -23,6 +26,8 @@ import com.benjaminearley.mysubs.model.Data_;
 import com.benjaminearley.mysubs.model.Listing;
 
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +41,8 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+    public static final int ADAPTER_SYNCING = 0;
+    public static final int ADAPTER_SYNCED = 1;
     static final int COLUMN_TITLE = 1;
     static final int COLUMN_URL = 2;
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
@@ -126,8 +133,17 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.content_authority), bundle);
     }
 
+    static private void setLocationStatus(Context c, @SyncStatus int locationStatus) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        SharedPreferences.Editor spe = sp.edit();
+        spe.putInt(c.getString(R.string.pref_sync_adapter_status_key), locationStatus);
+        spe.commit();
+    }
+
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+
+        setLocationStatus(getContext(), ADAPTER_SYNCING);
 
         Uri storiesUri = MySubsContract.StoryEntry.buildStory();
         Uri subredditUri = MySubsContract.SubredditEntry.buildSubreddit();
@@ -197,9 +213,15 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
             getContext().getContentResolver().delete(storiesUri, null, null);
             getContext().getContentResolver().bulkInsert(storyUri, storyValues);
 
+            setLocationStatus(getContext(), ADAPTER_SYNCED);
         }
 
 
 
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({ADAPTER_SYNCING, ADAPTER_SYNCED})
+    public @interface SyncStatus {
     }
 }
