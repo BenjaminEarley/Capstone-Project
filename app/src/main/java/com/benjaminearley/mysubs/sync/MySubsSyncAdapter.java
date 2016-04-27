@@ -177,8 +177,6 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
 
             }
 
-            getContext().getContentResolver().delete(storiesUri, null, null);
-
             Uri storyUri = MySubsContract.StoryEntry.buildStory();
 
             ContentValues[] storyValues = new ContentValues[storyList.size()];
@@ -196,7 +194,7 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
                 storyValues[i].put(MySubsContract.StoryEntry.COLUMN_POSITION, storyList.get(i).getPosition());
             }
 
-
+            getContext().getContentResolver().delete(storiesUri, null, null);
             getContext().getContentResolver().bulkInsert(storyUri, storyValues);
 
         }

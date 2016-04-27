@@ -47,7 +47,19 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             MySubsContract.StoryEntry.COLUMN_ID,
             MySubsContract.StoryEntry.COLUMN_TITLE
     };
-    final int[] position = {-1};
+    final Getter position = new Getter() {
+        int i = -1;
+
+        @Override
+        public int get() {
+            return i;
+        }
+
+        @Override
+        public void set(int i) {
+            this.i = i;
+        }
+    };
     private Uri storyUri = MySubsContract.StoryEntry.buildStory();
     private boolean mTwoPane;
     private boolean noEntryAnimation;
@@ -126,8 +138,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-
-                position[0] = viewHolder.getAdapterPosition();
+                position.set(viewHolder.getAdapterPosition());
 
                 getContentResolver().delete(storyUri, "id=?", new String[]{((StoryRecyclerViewAdapter.ViewHolder) viewHolder).identification});
             }
@@ -148,7 +159,6 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    position[0] = -2;
                     MySubsSyncAdapter.syncImmediately(StoryListActivity.this);
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -230,15 +240,21 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
                 MySubsContract.StoryEntry.COLUMN_POSITION + " ASC");
     }
 
-
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        adapter.swapCursor(data, position[0]);
-        position[0] = -1;
+        adapter.swapCursor(data, position.get());
+        position.set(-1);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.swapCursor(null, -1);
     }
+
+    interface Getter {
+        int get();
+
+        void set(int i);
+    }
+
 }

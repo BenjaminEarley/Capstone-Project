@@ -155,11 +155,7 @@ public class StoryRecyclerViewAdapter
     public void swapCursor(Cursor newCursor, int position) {
         mCursor = newCursor;
         if (newCursor != null) {
-            if (position <= -1) {
-                if (position == -2) {
-                    lastPosition = -1;
-                    offset = activity.getResources().getDimensionPixelSize(R.dimen.offset_y);
-                }
+            if (position == -1) {
                 notifyDataSetChanged();
             } else {
                 notifyItemRemoved(position);
