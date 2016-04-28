@@ -1,7 +1,8 @@
-package com.benjaminearley.mysubs;
+package com.benjaminearley.mysubs.util;
 
 import android.content.Context;
 
+import com.benjaminearley.mysubs.R;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 

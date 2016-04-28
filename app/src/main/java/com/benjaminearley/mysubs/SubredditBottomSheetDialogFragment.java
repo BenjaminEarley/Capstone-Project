@@ -22,10 +22,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
+import com.benjaminearley.mysubs.adapter.BottomSheetAdapter;
 import com.benjaminearley.mysubs.data.MySubsContract;
 import com.benjaminearley.mysubs.model.Data__;
 import com.benjaminearley.mysubs.model.Subreddit;
+import com.benjaminearley.mysubs.net.WebService;
 import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
+import com.benjaminearley.mysubs.util.Utility;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,8 +36,8 @@ import retrofit2.Response;
 
 public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    static final int COLUMN_TITLE = 1;
-    static final int COLUMN_URL = 2;
+    public static final int COLUMN_TITLE = 1;
+    public static final int COLUMN_URL = 2;
     private static final int SUBREDDIT_LOADER = 0;
     private static final String[] SUBREDDIT_COLUMNS = {
             MySubsContract.SubredditEntry.TABLE_NAME + "." + MySubsContract.SubredditEntry._ID,

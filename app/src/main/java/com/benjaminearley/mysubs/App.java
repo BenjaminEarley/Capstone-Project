@@ -3,6 +3,7 @@ package com.benjaminearley.mysubs;
 import android.app.Application;
 
 import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
+import com.benjaminearley.mysubs.util.AnalyticsTrackers;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.Tracker;
 

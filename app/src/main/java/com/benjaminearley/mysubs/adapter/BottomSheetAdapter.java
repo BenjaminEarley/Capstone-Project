@@ -1,4 +1,4 @@
-package com.benjaminearley.mysubs;
+package com.benjaminearley.mysubs.adapter;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHolder> {
+import com.benjaminearley.mysubs.R;
+import com.benjaminearley.mysubs.SubredditBottomSheetDialogFragment;
+
+public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHolder> {
 
     final private SubredditBottomSheetDialogFragment.SimpleAdapterOnClickHandler mClickHandler;
     private Cursor mCursor;

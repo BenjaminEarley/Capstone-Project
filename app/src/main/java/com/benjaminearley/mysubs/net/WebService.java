@@ -1,4 +1,4 @@
-package com.benjaminearley.mysubs;
+package com.benjaminearley.mysubs.net;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;

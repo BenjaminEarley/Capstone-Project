@@ -26,8 +26,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.benjaminearley.mysubs.adapter.StoryRecyclerViewAdapter;
 import com.benjaminearley.mysubs.data.MySubsContract;
 import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
+import com.benjaminearley.mysubs.util.AnalyticsTrackers;
+import com.benjaminearley.mysubs.util.FABScrollBehavior;
+import com.benjaminearley.mysubs.util.Utility;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 
@@ -178,6 +182,20 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.registerOnSharedPreferenceChangeListener(this);
         super.onResume();
+
+        @MySubsSyncAdapter.SyncStatus int status = Utility.getSyncStatus(this);
+
+        switch (status) {
+            case MySubsSyncAdapter.ADAPTER_SYNCING:
+                swipeRefreshLayout.setRefreshing(true);
+                break;
+            case MySubsSyncAdapter.ADAPTER_SYNCED:
+                swipeRefreshLayout.setRefreshing(false);
+                break;
+            default:
+                swipeRefreshLayout.setRefreshing(false);
+                break;
+        }
     }
 
     @Override

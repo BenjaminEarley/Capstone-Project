@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
@@ -18,12 +19,12 @@ import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 
 import com.benjaminearley.mysubs.R;
-import com.benjaminearley.mysubs.RedditService;
-import com.benjaminearley.mysubs.ServiceGenerator;
 import com.benjaminearley.mysubs.data.MySubsContract;
 import com.benjaminearley.mysubs.model.Child;
 import com.benjaminearley.mysubs.model.Data_;
 import com.benjaminearley.mysubs.model.Listing;
+import com.benjaminearley.mysubs.net.RedditService;
+import com.benjaminearley.mysubs.net.ServiceGenerator;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -213,11 +214,20 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
             getContext().getContentResolver().delete(storiesUri, null, null);
             getContext().getContentResolver().bulkInsert(storyUri, storyValues);
 
+            updateWidgets();
             setLocationStatus(getContext(), ADAPTER_SYNCED);
         }
 
 
 
+    }
+
+    private void updateWidgets() {
+        Context context = getContext();
+        // Setting the package ensures that only components in our app will receive the broadcast
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                .setPackage(context.getPackageName());
+        context.sendBroadcast(dataUpdatedIntent);
     }
 
     @Retention(RetentionPolicy.SOURCE)

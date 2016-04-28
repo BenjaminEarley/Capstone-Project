@@ -1,4 +1,4 @@
-package com.benjaminearley.mysubs;
+package com.benjaminearley.mysubs.net;
 
 import com.benjaminearley.mysubs.model.Listing;
 import com.benjaminearley.mysubs.model.Subreddit;

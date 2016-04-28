@@ -1,4 +1,4 @@
-package com.benjaminearley.mysubs;
+package com.benjaminearley.mysubs.net;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

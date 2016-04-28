@@ -1,4 +1,4 @@
-package com.benjaminearley.mysubs;
+package com.benjaminearley.mysubs.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
+import com.benjaminearley.mysubs.R;
 import com.benjaminearley.mysubs.sync.MySubsSyncAdapter;
 
 public class Utility {

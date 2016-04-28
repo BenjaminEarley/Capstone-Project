@@ -1,4 +1,4 @@
-package com.benjaminearley.mysubs;
+package com.benjaminearley.mysubs.adapter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -17,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.benjaminearley.mysubs.R;
+import com.benjaminearley.mysubs.StoryDetailActivity;
+import com.benjaminearley.mysubs.StoryDetailFragment;
+import com.benjaminearley.mysubs.StoryListActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.concurrent.TimeUnit;
