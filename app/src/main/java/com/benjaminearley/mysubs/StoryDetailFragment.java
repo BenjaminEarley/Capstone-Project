@@ -21,6 +21,7 @@ public class StoryDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_TITLE = "item_title";
     public static final String ARG_ITEM_LINK = "item_url";
+    static final String DETAIL_URI = "uri";
     private String title;
     private String link;
     private ProgressBar progressBar;

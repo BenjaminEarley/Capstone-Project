@@ -104,7 +104,7 @@ public class SubWidgetRemoteViewsService extends RemoteViewsService {
                 views.setTextViewText(R.id.time, timePassedString);
 
                 final Intent fillInIntent = new Intent();
-                Uri storiesUri = MySubsContract.StoryEntry.buildStory();
+                Uri storiesUri = MySubsContract.StoryEntry.buildStoryUri(data.getLong(COLUMN_ID));
                 fillInIntent.setData(storiesUri);
                 views.setOnClickFillInIntent(R.id.container, fillInIntent);
                 return views;

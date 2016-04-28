@@ -52,6 +52,7 @@ public class StoryDetailActivity extends AppCompatActivity {
                     getIntent().getStringExtra(StoryDetailFragment.ARG_ITEM_TITLE));
             arguments.putString(StoryDetailFragment.ARG_ITEM_LINK,
                     getIntent().getStringExtra(StoryDetailFragment.ARG_ITEM_LINK));
+            arguments.putParcelable(StoryDetailFragment.DETAIL_URI, getIntent().getData());
             StoryDetailFragment fragment = new StoryDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
