@@ -73,6 +73,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
     private SwipeRefreshLayout swipeRefreshLayout;
     private CoordinatorLayout coordinatorLayout;
     private View emptyView;
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +124,17 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
         if (savedInstanceState != null) {
             noEntryAnimation = true;
+        } else {
+            uri = getIntent().getData();
+            if (uri != null) {
+                Bundle arguments = new Bundle();
+                arguments.putString(StoryDetailFragment.ARG_ITEM_LINK, uri.toString());
+                StoryDetailFragment fragment = new StoryDetailFragment();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.story_detail_container, fragment)
+                        .commit();
+            }
         }
 
         if (recyclerView != null) {
