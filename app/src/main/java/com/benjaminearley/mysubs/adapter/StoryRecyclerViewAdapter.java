@@ -104,7 +104,7 @@ public class StoryRecyclerViewAdapter
             public void onClick(View v) {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(StoryDetailFragment.ARG_ITEM_TITLE, title);
+                    arguments.putString(StoryDetailActivity.ARG_ITEM_TITLE, title);
                     arguments.putString(StoryDetailFragment.ARG_ITEM_LINK, link);
                     StoryDetailFragment fragment = new StoryDetailFragment();
                     fragment.setArguments(arguments);
@@ -114,7 +114,7 @@ public class StoryRecyclerViewAdapter
                 } else {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, StoryDetailActivity.class);
-                    intent.putExtra(StoryDetailFragment.ARG_ITEM_TITLE, title);
+                    intent.putExtra(StoryDetailActivity.ARG_ITEM_TITLE, title);
                     intent.putExtra(StoryDetailFragment.ARG_ITEM_LINK, link);
                     intent.putExtra(StoryDetailActivity.ARG_LIST_POSITION, recyclerView.getLayoutManager().onSaveInstanceState());
 

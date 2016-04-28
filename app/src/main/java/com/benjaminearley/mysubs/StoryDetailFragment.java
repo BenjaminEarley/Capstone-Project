@@ -1,12 +1,10 @@
 package com.benjaminearley.mysubs;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +18,8 @@ import android.widget.Toast;
 
 public class StoryDetailFragment extends Fragment {
 
-    public static final String ARG_ITEM_TITLE = "item_title";
     public static final String ARG_ITEM_LINK = "item_url";
     static final String DETAIL_URI = "uri";
-    private String title;
     private String link;
     private Uri uri;
     private ProgressBar progressBar;
@@ -38,18 +34,8 @@ public class StoryDetailFragment extends Fragment {
         if (getArguments().containsKey(ARG_ITEM_LINK)) {
 
             uri = getArguments().getParcelable(DETAIL_URI);
-            title = getArguments().getString(ARG_ITEM_TITLE);
             link = getArguments().getString(ARG_ITEM_LINK);
 
-            Activity activity = this.getActivity();
-            Toolbar toolbar = (Toolbar) activity.findViewById(R.id.detail_toolbar);
-            if (toolbar != null) {
-                try {
-                    ((StoryDetailActivity) activity).getSupportActionBar().setTitle(title);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
