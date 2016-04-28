@@ -45,12 +45,14 @@ public class StoryRecyclerViewAdapter
     private float offset;
     private int lastPosition = -1;
     private Interpolator interpolator;
+    private View emptyView;
 
-    public StoryRecyclerViewAdapter(RecyclerView recyclerView, boolean mTwoPane, boolean noEntryAnimation, StoryListActivity activity) {
+    public StoryRecyclerViewAdapter(RecyclerView recyclerView, boolean mTwoPane, boolean noEntryAnimation, View emptyView, StoryListActivity activity) {
         this.mTwoPane = mTwoPane;
         this.activity = activity;
         this.recyclerView = recyclerView;
         this.noEntryAnimation = noEntryAnimation;
+        this.emptyView = emptyView;
         offset = activity.getResources().getDimensionPixelSize(R.dimen.offset_y);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             interpolator =
@@ -165,6 +167,7 @@ public class StoryRecyclerViewAdapter
                 notifyItemRemoved(position);
             }
         }
+        emptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -72,6 +72,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
     private RecyclerView recyclerView;
     private StoryRecyclerViewAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private View emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.story_list);
+        emptyView = findViewById(R.id.emptyView);
 
         if (findViewById(R.id.story_detail_container) != null) {
             // The detail container view will be present only in the
@@ -121,7 +123,6 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
         if (savedInstanceState != null) {
             noEntryAnimation = true;
         }
-
 
         if (recyclerView != null) {
             setupRecyclerView(recyclerView);
@@ -207,7 +208,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        adapter = new StoryRecyclerViewAdapter(recyclerView, mTwoPane, noEntryAnimation, this);
+        adapter = new StoryRecyclerViewAdapter(recyclerView, mTwoPane, noEntryAnimation, emptyView, this);
         recyclerView.setAdapter(adapter);
     }
 

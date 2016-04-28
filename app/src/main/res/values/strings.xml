@@ -31,5 +31,6 @@
     <string name="pref_sync_adapter_status_key" translatable="false">sync_status</string>
     <string name="empty_subs_list">No Subreddits Available</string>
     <string name="title_widget_detail">MySubs Stories</string>
+    <string name="empty_view">Follow Your Favourite Subreddits With the Add Button Below</string>
 
 </resources>
