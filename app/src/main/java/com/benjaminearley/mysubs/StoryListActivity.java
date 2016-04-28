@@ -161,7 +161,11 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    MySubsSyncAdapter.syncImmediately(StoryListActivity.this);
+                    if (adapter != null && adapter.getItemCount() != 0) {
+                        MySubsSyncAdapter.syncImmediately(StoryListActivity.this);
+                    } else {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                 }
             });
         }

@@ -64,7 +64,7 @@ public class StoryRecyclerViewAdapter
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        final String title = mCursor.getString(COLUMN_TITLE);
+        final String title = mCursor.getString(COLUMN_TITLE).trim();
         final String score = String.valueOf(mCursor.getInt(COLUMN_SCORE));
         final String link = mCursor.getString(COLUMN_PERMALINK);
         final String thumbnail = mCursor.getString(COLUMN_THUMBNAIL);
