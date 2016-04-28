@@ -17,6 +17,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -110,6 +112,29 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
         spinner = (ProgressBar) contentView.findViewById(R.id.spinner);
         subredditSearch = (EditText) contentView.findViewById(R.id.subreddit_search);
+
+        subredditSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String result = s.toString().replaceAll(" ", "").toLowerCase();
+                if (!s.toString().equals(result)) {
+                    subredditSearch.setText(result);
+                    subredditSearch.setSelection(result.length());
+                    // alert the user
+                }
+            }
+        });
+
         addButton = (ImageButton) contentView.findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
