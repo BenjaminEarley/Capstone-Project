@@ -29,9 +29,13 @@
     <string name="db_title_query" translatable="false">title=?</string>
     <string name="basic_dialog_positive_button_text">OK</string>
     <string name="pref_sync_adapter_status_key" translatable="false">sync_status</string>
+    <string name="pref_sync_error_adapter_status_key" translatable="false">sync_error_status</string>
     <string name="empty_subs_list">No Subreddits Available</string>
     <string name="title_widget_detail">MySubs Stories</string>
     <string name="empty_view">Follow Your Favourite Subreddits With the Add Button Below</string>
     <string name="add_content_description">Add Your Favorite Subreddit</string>
+    <string name="network_error_message">Network Error Occurred</string>
+    <string name="network_error_snackbar_action_button">retry</string>
+    <string name="snackbar_action_invite_error">Action</string>
 
 </resources>

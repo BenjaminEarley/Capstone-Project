@@ -28,4 +28,12 @@ public class Utility {
         return sp.getInt(c.getString(R.string.pref_sync_adapter_status_key), MySubsSyncAdapter.ADAPTER_SYNCED);
     }
 
+    @SuppressWarnings("ResourceType")
+    static public
+    @MySubsSyncAdapter.SyncErrorStatus
+    int getSyncErrorStatus(Context c) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        return sp.getInt(c.getString(R.string.pref_sync_error_adapter_status_key), MySubsSyncAdapter.NETWORK_UNKNOWN);
+    }
+
 }

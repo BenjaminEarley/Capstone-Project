@@ -71,6 +71,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
     private RecyclerView recyclerView;
     private StoryRecyclerViewAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private CoordinatorLayout coordinatorLayout;
     private View emptyView;
 
     @Override
@@ -97,6 +98,7 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
         recyclerView = (RecyclerView) findViewById(R.id.story_list);
         emptyView = findViewById(R.id.emptyView);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coord_layout);
 
         if (findViewById(R.id.story_detail_container) != null) {
             // The detail container view will be present only in the
@@ -196,6 +198,18 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
                 swipeRefreshLayout.setRefreshing(false);
                 break;
         }
+
+        @MySubsSyncAdapter.SyncErrorStatus int errorStatus = Utility.getSyncErrorStatus(this);
+
+        if (errorStatus == MySubsSyncAdapter.NETWORK_ERROR) {
+            Snackbar.make(coordinatorLayout, R.string.network_error_message, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.network_error_snackbar_action_button, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MySubsSyncAdapter.syncImmediately(StoryListActivity.this);
+                        }
+                    }).show();
+        }
     }
 
     @Override
@@ -247,8 +261,8 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
                                 .build()
                         );
             } else {
-                Snackbar.make(findViewById(R.id.coord_layout), getString(R.string.invite_error), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(coordinatorLayout, getString(R.string.invite_error), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.snackbar_action_invite_error, null).show();
             }
         }
     }
@@ -303,6 +317,18 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
                 default:
                     swipeRefreshLayout.setRefreshing(false);
                     break;
+            }
+        } else if (key.equals(getString(R.string.pref_sync_error_adapter_status_key))) {
+            @MySubsSyncAdapter.SyncErrorStatus int errorStatus = Utility.getSyncErrorStatus(this);
+
+            if (errorStatus == MySubsSyncAdapter.NETWORK_ERROR) {
+                Snackbar.make(coordinatorLayout, R.string.network_error_message, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.network_error_snackbar_action_button, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                MySubsSyncAdapter.syncImmediately(StoryListActivity.this);
+                            }
+                        }).show();
             }
         }
     }

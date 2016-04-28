@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.util.Log;
 
 import com.benjaminearley.mysubs.R;
 import com.benjaminearley.mysubs.data.MySubsContract;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Response;
 
 public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -45,6 +47,8 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
     public static final int ADAPTER_SYNCING = 0;
     public static final int ADAPTER_SYNCED = 1;
+    public static final int NETWORK_UNKNOWN = 2;
+    public static final int NETWORK_ERROR = 3;
     static final int COLUMN_URL = 2;
 
     private static final String[] SUBREDDIT_COLUMNS = {
@@ -141,10 +145,19 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
         spe.commit();
     }
 
+    @SuppressLint("CommitPrefEdits")
+    static private void setErrorStatus(Context c, @SyncErrorStatus int errorStatus) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        SharedPreferences.Editor spe = sp.edit();
+        spe.putInt(c.getString(R.string.pref_sync_error_adapter_status_key), errorStatus);
+        spe.commit();
+    }
+
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
         setLocationStatus(getContext(), ADAPTER_SYNCING);
+        setErrorStatus(getContext(), NETWORK_UNKNOWN);
 
         Uri storiesUri = MySubsContract.StoryEntry.buildStory();
         Uri subredditUri = MySubsContract.SubredditEntry.buildSubreddit();
@@ -161,10 +174,17 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
                 RedditService taskService = ServiceGenerator.createService(RedditService.class);
                 Call<Listing> call = taskService.getSubredditHotListing(subreddit);
                 try {
-                    Listing stories = call
-                            .execute()
-                            .body();
-                    allStories.add(stories);
+
+                    Response<Listing> response = call.execute();
+
+                    if (response.isSuccessful()) {
+                        allStories.add(response.body());
+                    } else {
+                        Log.e("Network Error", String.valueOf(response.code()));
+                        setErrorStatus(getContext(), NETWORK_ERROR);
+                        setLocationStatus(getContext(), ADAPTER_SYNCED);
+                        return;
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -233,5 +253,10 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({ADAPTER_SYNCING, ADAPTER_SYNCED})
     public @interface SyncStatus {
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({NETWORK_UNKNOWN, NETWORK_ERROR})
+    public @interface SyncErrorStatus {
     }
 }
