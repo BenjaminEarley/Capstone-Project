@@ -104,7 +104,7 @@ public class SubWidgetRemoteViewsService extends RemoteViewsService {
                 views.setTextViewText(R.id.time, timePassedString);
 
                 final Intent fillInIntent = new Intent();
-                fillInIntent.setData(Uri.parse(data.getString(COLUMN_PERMALINK)));
+                fillInIntent.setData(Uri.parse(data.getString(COLUMN_PERMALINK)).buildUpon().appendQueryParameter(getString(R.string.uri_query_key), title).build());
                 views.setOnClickFillInIntent(R.id.container, fillInIntent);
                 return views;
             }

@@ -37,5 +37,6 @@
     <string name="network_error_message">Network Error Occurred</string>
     <string name="network_error_snackbar_action_button">retry</string>
     <string name="snackbar_action_invite_error">Action</string>
+    <string name="uri_query_key" translatable="false">title</string>
 
 </resources>

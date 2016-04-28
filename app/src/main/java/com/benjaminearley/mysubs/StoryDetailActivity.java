@@ -1,6 +1,7 @@
 package com.benjaminearley.mysubs;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.NavUtils;
@@ -17,6 +18,7 @@ public class StoryDetailActivity extends AppCompatActivity {
     public static final String ARG_ITEM_TITLE = "item_title";
 
     private String title;
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +33,19 @@ public class StoryDetailActivity extends AppCompatActivity {
         toolbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
                 | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
 
-        if (toolbar != null) {
-            toolbar.setTitle(title);
-        }
-
         if (savedInstanceState == null) {
 
+            uri = getIntent().getData();
+
             title = getIntent().getStringExtra(ARG_ITEM_TITLE);
+            if (title == null) {
+                title = uri.getQueryParameter(getString(R.string.uri_query_key));
+            }
 
             Bundle arguments = new Bundle();
             arguments.putString(StoryDetailFragment.ARG_ITEM_LINK,
                     getIntent().getStringExtra(StoryDetailFragment.ARG_ITEM_LINK));
-            arguments.putParcelable(StoryDetailFragment.DETAIL_URI, getIntent().getData());
+            arguments.putParcelable(StoryDetailFragment.DETAIL_URI, uri);
             StoryDetailFragment fragment = new StoryDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
