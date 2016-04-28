@@ -2,6 +2,7 @@ package com.benjaminearley.mysubs;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +25,7 @@ public class StoryDetailFragment extends Fragment {
     static final String DETAIL_URI = "uri";
     private String title;
     private String link;
+    private Uri uri;
     private ProgressBar progressBar;
 
     public StoryDetailFragment() {
@@ -35,6 +37,7 @@ public class StoryDetailFragment extends Fragment {
 
         if (getArguments().containsKey(ARG_ITEM_LINK)) {
 
+            uri = getArguments().getParcelable(DETAIL_URI);
             title = getArguments().getString(ARG_ITEM_TITLE);
             link = getArguments().getString(ARG_ITEM_LINK);
 
@@ -55,7 +58,7 @@ public class StoryDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.story_detail, container, false);
 
-        if (link != null && !link.isEmpty()) {
+        if ((link != null && !link.isEmpty()) || (uri != null && !uri.toString().isEmpty())) {
 
             WebView webView = (WebView) rootView.findViewById(R.id.webview);
             progressBar = (ProgressBar) getActivity().findViewById(R.id.toolbar_progress_bar);
@@ -128,7 +131,11 @@ public class StoryDetailFragment extends Fragment {
                 }
             });
 
-            webView.loadUrl(getContext().getString(R.string.reddit_url_webview) + link);
+            if (link != null) {
+                webView.loadUrl(getContext().getString(R.string.reddit_url_webview) + link);
+            } else {
+                webView.loadUrl(getContext().getString(R.string.reddit_url_webview) + uri.toString());
+            }
         } else {
             Toast.makeText(getContext(), R.string.toast_web_error, Toast.LENGTH_LONG).show();
         }
