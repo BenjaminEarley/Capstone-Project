@@ -32,5 +32,6 @@
     <string name="empty_subs_list">No Subreddits Available</string>
     <string name="title_widget_detail">MySubs Stories</string>
     <string name="empty_view">Follow Your Favourite Subreddits With the Add Button Below</string>
+    <string name="add_content_description">Add Your Favorite Subreddit</string>
 
 </resources>

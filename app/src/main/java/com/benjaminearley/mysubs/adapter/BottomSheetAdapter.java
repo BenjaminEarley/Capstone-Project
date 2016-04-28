@@ -29,7 +29,11 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        holder.mTextView.setText(mCursor.getString(SubredditBottomSheetDialogFragment.COLUMN_TITLE));
+
+        final String title = mCursor.getString(SubredditBottomSheetDialogFragment.COLUMN_TITLE);
+
+        holder.mTextView.setText(title);
+        holder.mTextView.setContentDescription(title + "subreddit");
     }
 
     @Override

@@ -83,6 +83,7 @@ public class StoryRecyclerViewAdapter
         holder.scoreView.setText(score);
         holder.authorView.setText(author);
         holder.subredditView.setText(subreddit);
+        holder.cardView.setContentDescription(title);
 
         final String timePassedString = (String) DateUtils.getRelativeTimeSpanString(TimeUnit.SECONDS.toMillis(mCursor.getLong(COLUMN_UNIX_TIMESTAMP)), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
 
@@ -179,6 +180,7 @@ public class StoryRecyclerViewAdapter
         public final TextView timeView;
         public final ImageView imageView;
         public final RelativeLayout container;
+        public final View cardView;
         public String identification;
 
         public ViewHolder(View view) {
@@ -191,6 +193,7 @@ public class StoryRecyclerViewAdapter
             timeView = (TextView) view.findViewById(R.id.time);
             imageView = (ImageView) view.findViewById(R.id.image);
             container = (RelativeLayout) view.findViewById(R.id.container);
+            cardView = view.findViewById(R.id.cardview);
         }
 
         @Override
