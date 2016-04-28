@@ -44,7 +44,7 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
     // Interval at which to sync with reddit, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;
-    public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+    public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
     public static final int ADAPTER_SYNCING = 0;
     public static final int ADAPTER_SYNCED = 1;
     public static final int NETWORK_UNKNOWN = 2;
@@ -91,7 +91,7 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
         // If the password doesn't exist, the account doesn't exist
-        if ( null == accountManager.getPassword(newAccount) ) {
+        if (null == accountManager.getPassword(newAccount)) {
 
         /*
          * Add the account and account type, no password or user data
@@ -237,7 +237,6 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
             updateWidgets();
             setLocationStatus(getContext(), ADAPTER_SYNCED);
         }
-
 
 
     }

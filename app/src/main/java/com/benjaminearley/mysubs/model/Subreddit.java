@@ -1,4 +1,3 @@
-
 package com.benjaminearley.mysubs.model;
 
 public class Subreddit {

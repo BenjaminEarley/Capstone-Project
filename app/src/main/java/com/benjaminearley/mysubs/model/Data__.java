@@ -1,4 +1,3 @@
-
 package com.benjaminearley.mysubs.model;
 
 import java.util.ArrayList;

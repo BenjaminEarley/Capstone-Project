@@ -22,13 +22,13 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-        android:id="@+id/story_list"
-        android:name="com.benjaminearley.mysubs.storyListFragment"
+            android:id="@+id/story_list"
+            android:name="com.benjaminearley.mysubs.storyListFragment"
             android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".StoryListActivity"
-        tools:listitem="@layout/story_list_content" />
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".StoryListActivity"
+            tools:listitem="@layout/story_list_content" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

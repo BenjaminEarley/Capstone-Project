@@ -454,7 +454,6 @@ public class Data_ {
     }
 
 
-
     /**
      * @return The from
      */
@@ -468,7 +467,6 @@ public class Data_ {
     public void setFrom(Object from) {
         this.from = from;
     }
-
 
 
     /**

@@ -152,7 +152,6 @@ public class StoryRecyclerViewAdapter
     }
 
 
-
     @Override
     public int getItemCount() {
         if (null == mCursor) return 0;
