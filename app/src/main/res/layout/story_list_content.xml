@@ -95,7 +95,8 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
-                android:contentDescription="Image" />
+                android:contentDescription="Image"
+                android:visibility="gone" />
 
         </LinearLayout>
 

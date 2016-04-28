@@ -5,4 +5,11 @@
     <dimen name="item_width">400dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="offset_y">300dp</dimen>
+
+    <dimen name="action_bar_default_height_material">56dp</dimen>
+
+    <dimen name="widget_detail_default_width">250dp</dimen>
+    <dimen name="widget_detail_default_height">180dp</dimen>
+    <dimen name="widget_detail_min_resize_width">220dp</dimen>
+    <dimen name="widget_detail_min_resize_height">@dimen/widget_detail_default_height</dimen>
 </resources>

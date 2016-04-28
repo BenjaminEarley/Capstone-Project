@@ -78,7 +78,7 @@ public class StoryRecyclerViewAdapter
         holder.authorView.setText(author);
         holder.subredditView.setText(subreddit);
 
-        String timePassedString = (String) DateUtils.getRelativeTimeSpanString(TimeUnit.SECONDS.toMillis(mCursor.getLong(COLUMN_UNIX_TIMESTAMP)), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+        final String timePassedString = (String) DateUtils.getRelativeTimeSpanString(TimeUnit.SECONDS.toMillis(mCursor.getLong(COLUMN_UNIX_TIMESTAMP)), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
 
         if (timePassedString != null) {
             holder.timeView.setText(timePassedString);
