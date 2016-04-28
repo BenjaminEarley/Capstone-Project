@@ -86,7 +86,7 @@ public class SubWidgetRemoteViewsService extends RemoteViewsService {
                     return null;
                 }
                 RemoteViews views = new RemoteViews(getPackageName(),
-                        R.layout.story_list_content);
+                        R.layout.widget_list_item);
 
                 final String title = data.getString(COLUMN_TITLE).trim();
                 final String score = String.valueOf(data.getInt(COLUMN_SCORE));
@@ -112,7 +112,7 @@ public class SubWidgetRemoteViewsService extends RemoteViewsService {
 
             @Override
             public RemoteViews getLoadingView() {
-                return new RemoteViews(getPackageName(), R.layout.story_list_content);
+                return new RemoteViews(getPackageName(), R.layout.widget_list_item);
             }
 
             @Override
