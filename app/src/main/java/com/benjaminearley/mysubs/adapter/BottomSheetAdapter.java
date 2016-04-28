@@ -14,8 +14,6 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
 
     final private SubredditBottomSheetDialogFragment.SimpleAdapterOnClickHandler mClickHandler;
     private Cursor mCursor;
-    private Integer removalPosition = null;
-
 
     public BottomSheetAdapter(SubredditBottomSheetDialogFragment.SimpleAdapterOnClickHandler mClickHandler) {
         this.mClickHandler = mClickHandler;

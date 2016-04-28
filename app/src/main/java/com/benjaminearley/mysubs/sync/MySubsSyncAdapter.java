@@ -2,6 +2,7 @@ package com.benjaminearley.mysubs.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -44,10 +45,8 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
     public static final int ADAPTER_SYNCING = 0;
     public static final int ADAPTER_SYNCED = 1;
-    static final int COLUMN_TITLE = 1;
     static final int COLUMN_URL = 2;
-    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-    private static final int SUBREDDIT_LOADER = 0;
+
     private static final String[] SUBREDDIT_COLUMNS = {
             MySubsContract.SubredditEntry.TABLE_NAME + "." + MySubsContract.SubredditEntry._ID,
             MySubsContract.SubredditEntry.COLUMN_TITLE,
@@ -134,6 +133,7 @@ public class MySubsSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.content_authority), bundle);
     }
 
+    @SuppressLint("CommitPrefEdits")
     static private void setLocationStatus(Context c, @SyncStatus int locationStatus) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
         SharedPreferences.Editor spe = sp.edit();

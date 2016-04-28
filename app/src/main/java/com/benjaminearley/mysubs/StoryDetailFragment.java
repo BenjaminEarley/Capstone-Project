@@ -1,5 +1,6 @@
 package com.benjaminearley.mysubs;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class StoryDetailFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

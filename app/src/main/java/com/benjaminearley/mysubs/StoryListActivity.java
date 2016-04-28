@@ -41,7 +41,6 @@ public class StoryListActivity extends AppCompatActivity implements LoaderManage
 
     private static final int REQUEST_INVITE = 0;
     private static final int SUBREDDIT_LOADER = 1;
-    private static final String TAG = StoryListActivity.class.getSimpleName();
     private static final String[] STORY_COLUMNS = {
             MySubsContract.StoryEntry.TABLE_NAME + "." + MySubsContract.StoryEntry._ID,
             MySubsContract.StoryEntry.COLUMN_SUBREDDIT,

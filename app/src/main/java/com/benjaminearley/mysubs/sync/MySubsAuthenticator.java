@@ -13,14 +13,12 @@ public class MySubsAuthenticator extends AbstractAccountAuthenticator {
         super(context);
     }
 
-    // No properties to edit.
     @Override
     public Bundle editProperties(
             AccountAuthenticatorResponse r, String s) {
         throw new UnsupportedOperationException();
     }
 
-    // Because we're not actually adding an account to the device, just return null.
     @Override
     public Bundle addAccount(
             AccountAuthenticatorResponse r,
@@ -31,7 +29,6 @@ public class MySubsAuthenticator extends AbstractAccountAuthenticator {
         return null;
     }
 
-    // Ignore attempts to confirm credentials
     @Override
     public Bundle confirmCredentials(
             AccountAuthenticatorResponse r,
@@ -40,7 +37,6 @@ public class MySubsAuthenticator extends AbstractAccountAuthenticator {
         return null;
     }
 
-    // Getting an authentication token is not supported
     @Override
     public Bundle getAuthToken(
             AccountAuthenticatorResponse r,
@@ -50,13 +46,11 @@ public class MySubsAuthenticator extends AbstractAccountAuthenticator {
         throw new UnsupportedOperationException();
     }
 
-    // Getting a label for the auth token is not supported
     @Override
     public String getAuthTokenLabel(String s) {
         throw new UnsupportedOperationException();
     }
 
-    // Updating user credentials is not supported
     @Override
     public Bundle updateCredentials(
             AccountAuthenticatorResponse r,
@@ -65,7 +59,6 @@ public class MySubsAuthenticator extends AbstractAccountAuthenticator {
         throw new UnsupportedOperationException();
     }
 
-    // Checking features for the account is not supported
     @Override
     public Bundle hasFeatures(
             AccountAuthenticatorResponse r,
