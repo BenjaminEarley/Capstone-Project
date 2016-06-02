@@ -6,4 +6,6 @@
 .idea/
 .DS_Store
 /build
+app/keystore.jks
+app/fabric.properties
 /captures
