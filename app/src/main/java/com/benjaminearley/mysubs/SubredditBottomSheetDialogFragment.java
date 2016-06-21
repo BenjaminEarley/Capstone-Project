@@ -4,12 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StyleRes;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.LoaderManager;
@@ -20,6 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -68,6 +72,12 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
         public void onSlide(@NonNull View bottomSheet, float slideOffset) {
         }
     };
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new CustomWidthBottomSheetDialog(getActivity(), getTheme());
+    }
 
     @Override
     public void setupDialog(Dialog dialog, int style) {
@@ -276,6 +286,20 @@ public class SubredditBottomSheetDialogFragment extends BottomSheetDialogFragmen
 
     public interface SimpleAdapterOnClickHandler {
         void onClick(String subreddit, int position);
+    }
+
+    static class CustomWidthBottomSheetDialog extends BottomSheetDialog {
+        public CustomWidthBottomSheetDialog(@NonNull Context context, @StyleRes int theme) {
+            super(context, theme);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            int width = getContext().getResources().getDimensionPixelSize(R.dimen.bottom_sheet_width);
+            getWindow().setLayout(width > 0 ? width : ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+        }
     }
 
 }
